@@ -1,0 +1,7 @@
+/* 返回顶部 */
+	.mod_backtop{position: fixed;z-index:20;display:block;width:45px;height:45px;border-radius:4px;right:10px;bottom:10px;background-color: rgba(0,0,0,.7);opacity: 0;-webkit-transition: opacity 0.2s ease-out 0s;}
+	.mod_backtop:after{content: '';position:absolute;top:15px;left:11px;display:block;width:23px;height:15px;background-position:-35px -100px;}
+	.mod_backtop_active{opacity: 0.5;}
+
+	.mod_backprev{position: fixed;z-index:20;display:block;width:45px;height:45px;border-radius:4px;left:10px;bottom:10px;background-color: rgba(0,0,0,.7);opacity: 0.5;}
+	.mod_backprev:after{content: '';position:absolute;top:11px;left:15px;display:block;width:15px;height:23px;background-position:-180px -101px;}

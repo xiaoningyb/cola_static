@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+/*===== ico =====*/
+ 	.ico_smile,
+ 	.ico_star,
+ 	.ico_star2{background: url(/icson/img/wx/comment/bg.png) no-repeat;background-size: 104px 35px;}
+
+ 	.ico_smile{display: inline-block;width: 24px;height: 24px;vertical-align: middle;}
+ 	.ico_star,
+ 	.ico_star2{display: block;width: 35px;height: 35px;vertical-align: middle;}
+ 	.ico_star{background-position: -29px 0;}
+ 	.ico_star2{background-position: -69px 0;}
+
+/*===== 订单列表 =====*/
+ 	.order{margin-bottom: 10px;}
+ 		.order_hd{overflow: hidden;zoom:1;padding:10px;font-size: 14px;font-weight: bold;}
+		 	.order_total{float: left;}
+		 	.order_total span{font-weight: normal;}
+		 	.order_num{float: right;}
+		 	.order_done{text-align: center;}
+		 	.order_done .ico_smile{margin:-5px 10px 0 0;}
+
+		 .order_bd{border: 1px solid #ddd;border-width:1px 0;background: #fff;}
+		 	.order_list{padding: 0 10px;}
+		 	.order_item{padding: 10px 0;border-bottom: 1px solid #ddd;position: relative;}
+		 	.order_item:last-child{border: 0;}
+		 	.order_item .btn_comment{position: absolute;right: 0;bottom: 10px;}
+		 	/*==== 商品 =====*/
+		 	.goods{overflow: hidden;}
+		 		.goods_img{float: left;display:inline;overflow: hidden;margin-right:15px;border: 1px solid #ddd;}
+		 			 .goods_img .img{display: block;}
+		 		.goods_info{overflow: hidden;}
+		 			.goods_info_name{height: 40px;line-height: 20px;overflow: hidden;}
+		 			.goods_info_other{margin-top: 20px;line-height: 20px;}
+		 			.goods_info_price{color: #d70000;margin-right: 10px;}
+
+/*===== 评论商品 =====*/
+	.comment_goods {background: #fff;padding:10px;}
+	.comment_goods .goods_info{height: 60px;display: -webkit-box;-webkit-box-align:center;}	
+	.comment{padding: 15px 10px;background: #f6f6f6;}
+	.comment_tit{font-size: 14px;font-weight: bold;margin-bottom: 10px;height: 20px;line-height: 20px;}	
+	.grade{padding-bottom: 10px;border-bottom: 1px solid #ddd;}
+	.grade_select{overflow: hidden;}
+	.grade_item{float: left;display: inline;text-align: center;width: 35px;text-align: center;margin-right: 10px;}
+	.grade_score{margin-top: 5px;display: block;}
+
+	.fill{padding-top: 10px;border-top: 1px solid #fff;position: relative;}
+	.fill_count{position: absolute;right: 0;top: 10px;height: 20px;line-height: 20px;}
+	.comment_form textarea{border: 1px solid #c1c1c1;box-sizing:border-box;padding: 5px;width: 100%;border-radius: 4px;height: 6em;}
+	.comment_form button{margin-top: 10px;display: block;width: 100%;}
+
+	
+
+
+

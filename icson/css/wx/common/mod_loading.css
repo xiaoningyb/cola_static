@@ -1,0 +1,8 @@
+/*=====  loading  =====*/
+	.mod_loading{position: fixed;left: 50%;top: 50%;z-index:100;width: 110px;height: 66px;margin-left: -55px;margin-top: -33px;z-index: 100;text-align: center;}
+	.mod_loading_gif{width: 41px;height: 41px;border-radius: 8px;box-shadow: 0 1px 2px #8B8B8B;margin: 0 auto 5px;background:#fff no-repeat center center;background-size: 17px 31px;background-image: url(/icson/img/wx/common/loading2.gif);}
+	
+	.mod_loading2{text-align: center;padding:10px;}
+		.mod_loading2_gif{display:inline-block;width:16px;height:16px;background-image:url(/icson/img/wx/common/loading.gif);background-repeat:no-repeat;background-position:center center;background-size:16px 16px;margin-right:5px;vertical-align:middle;}
+		.mod_loading2_txt{font-size:12px;vertical-align:-1px;}
+

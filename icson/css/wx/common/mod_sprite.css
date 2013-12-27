@@ -1,0 +1,15 @@
+/* 核心雪碧图 */
+.mod_backtop:after,
+.mod_backprev:after,
+.mod_bar,
+.mod_nav,
+.mod_bar_back i,
+.mod_nav_slide{background-image:url(/icson/img/wx/common/gb_sprites.png?t=20131214145201);background-repeat:no-repeat;-webkit-background-size:250px 145px;background-size:250px 145px;}
+
+/* 扩展雪碧图，用于其他业务 */
+.mod_btn_back:before,
+.ico{background-image: url(/icson/img/wx/common/sprites.png);-webkit-background-size:60px 30px;background-size: 60px 30px;background-repeat: no-repeat;}
+
+/* 新人指引 */
+.mod_nav_shadow,
+.mod_guide{background-image: url(/icson/img/wx/common/guide_tips.png);-webkit-background-size:127px 184px;background-size:127px 184px;background-repeat: no-repeat;}

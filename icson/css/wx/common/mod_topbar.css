@@ -1,0 +1,58 @@
+/*=====  头部通栏  =====*/
+	.mod_topbar{height: 43px;width:100%;min-width:320px;color: #fff;font-size:14px;text-shadow: 0 1px 1px rgba(0,0,0,.2);line-height: 43px;background: #397FE8;border-bottom: 1px solid #325FC2;-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.2) inset;box-shadow: 0 1px 2px rgba(0,0,0,.2),0 1px 2px rgba(0,0,0,.2) inset;position: relative;}
+		.mod_topbar_fixed{position: fixed;top:0;z-index:100;}
+		.mod_topbar a{color: #fff;}
+		.mod_topbar_tit{padding: 0 10px;text-align: center;height: 100%;font-size: 18px;font-weight: bold;white-space: nowrap;text-overflow: ellipsis;}
+		.mod_topbar_left,
+		.mod_topbar_right{position: absolute;height: 100%;top: 0;display:-webkit-box;-webkit-box-align:center;}
+		.mod_topbar_left{left: 10px;}
+		.mod_topbar_right{right: 10px;}
+
+/*===== 通用背景 =====*/
+	.mod_bar{background-repeat:repeat-x;background-position:0 -50px;}
+	
+	.mod_bar_tab li.current{background-position:center 0;}
+
+/*=====  头部通栏2 商详用  =====*/
+	.mod_bar{height: 45px;z-index:100;width:100%;min-width:320px;position:relative;font-size:14px;line-height: 45px;display: -webkit-box;-webkit-backface-visibility: hidden;overflow: hidden;}
+		.mod_bar_fixed{position: fixed;top:0;left: 0;}
+		.mod_bar_left,
+		.mod_bar_right{position: absolute;height: 100%;top: 0;z-index: 2;display: -webkit-box;-webkit-box-align: center;}
+		.mod_bar_left{left: 10px;}
+		.mod_bar_right{right: 10px;}
+		.mod_bar_back{height: 45px;width:55px;position: relative;z-index: 5;}
+		.mod_bar_back a{height: 100%;display: -webkit-box;-webkit-box-pack: center;-webkit-box-align: center;}
+		.mod_bar_back i{display:block;height: 30px;width: 30px;background-position: 0 -100px;}
+		.mod_bar_center{-webkit-box-flex:1;height: 45px;}
+		.mod_bar_tit{text-align: center;font-size: 18px;font-weight: bold;white-space: nowrap;text-overflow: ellipsis;position: absolute;left: 0;width: 100%;height:45px;}
+		.mod_bar_tab{display: -webkit-box;height: 100%;border-left: 1px solid #c5c5c5;}
+		.mod_bar_tab li{-webkit-box-flex:1;padding: 0 8px;text-align: center;display: -webkit-box;-webkit-box-pack: center;-webkit-box-align: center;position: relative;}
+		.mod_bar_tab li>span{display:block;height: 26px;;width: 100%;line-height: 24px;cursor: default;}
+		.mod_bar_tab li.current>span{background: #989da6;color: #fff;border-radius: 10px;-webkit-box-shadow: 0 1px 0 #7c8087 inset,0 -1px 0 #fff inset;box-shadow: 0 1px 0 #7c8087 inset,0 -1px 0 #fff inset;}
+		.mod_bar_btn{display:block;height: 28px;padding: 0 15px;background: #fff;border-radius:14px;text-align: center;line-height: 28px;border: 1px solid #dfdfdf;color: #4f89da;}
+
+/*===== 导航组件 =====*/
+	.mod_nav{position:absolute;z-index:100;width:100%; height:45px;min-width:320px;overflow:hidden;line-height:44px;}
+		.mod_nav_inner{white-space:nowrap;height: 45px;position: relative;}
+		/*.mod_nav_inner:after,
+		.mod_nav_inner:before{content: ''; position: absolute; width: 1024px; height: 45px;top: 0;}*/
+		/*.mod_nav_inner:before{left: -1024px;}*/
+		.mod_nav_inner li{float: left;display: inline;height: 100%;position: relative;z-index: 2;}
+		.mod_nav_inner a{float:left;display:inline;width:90px;padding-top:10px;height:36px;white-space:nowrap;text-align: center;position: relative;color: #444;}
+		.mod_nav_inner a strong{font-weight: normal;display:block;height: 26px;;width: 100%;line-height: 24px;cursor: pointer;}
+		.mod_nav_inner li.current strong{background: #989da6;color: #fff;border-radius: 10px;-webkit-box-shadow: 0 1px 0 #7c8087 inset,0 -1px 0 #fff inset;box-shadow: 0 1px 0 #7c8087 inset,0 -1px 0 #fff inset;}
+		.mod_nav_slide{z-index:3;position:absolute;top:0px;right:0px;display:block;width:49px;height:44px;background-position:-65px -100px;-webkit-transform:translateZ(0px)}
+		.mod_nav_slide_l{background-position:-122px -100px;}
+		.mod_nav_shadow{z-index:3;position:absolute;top:0px;right:10px;display:block;width:20px;height:44px;background-position:0 -140px;}
+
+	.mod_nav_fixed{position:fixed;top:0;left:0;}
+
+/*===== 新人指引 =====*/
+.mod_guide{z-index:101;position:fixed;top:25px;right:10px;display:block;width:127px;height: 134px;background-position:-0px -0px;opacity:0.8;}
+
+/*===== 订单条 =====*/
+	.mod_orderbar{height: 45px;overflow: hidden;background: #ffefbe;line-height: 45px;padding: 0 10px;}
+	.mod_orderbar_city{float: left;}
+	.mod_orderbar_city select{-webkit-appearance: none;background: none;border: none;color: #4f87da;height: 40px;line-height:40px;max-width: 8em;float: left;vertical-align: middle;margin-top: 2px;font-size: 16px;}
+	.mod_orderbar_city span{float: left;}
+	.mod_orderbar_query{float: right;color: #4f87da;}

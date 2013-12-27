@@ -1,0 +1,29 @@
+/* import from mod_sprite.css */
+.mod_nav,
+.mod_nav_slide,
+.mod_backprev:after,
+.mod_backtop:after{background-image:url(/icson/img/wx/common/gb_sprites.png?t=20131214145201);background-repeat:no-repeat;-webkit-background-size:250px 145px;background-size:250px 145px;}
+
+/* import from mod_topbar.css */
+.mod_nav{background-repeat:repeat-x;background-position:0 -50px;}
+
+/*===== 导航组件 =====*/
+.mod_nav{position:absolute;z-index:100;width:100%; height:45px;min-width:320px;overflow:hidden;line-height:44px;font-size:14px;}
+	.mod_nav_inner{white-space:nowrap;height: 45px;position: relative;}
+	.mod_nav_inner li{float: left;display: inline;height: 100%;position: relative;z-index: 2;}
+	.mod_nav_inner a{float:left;display:inline;width:90px;padding-top:10px;height:36px;white-space:nowrap;text-align: center;position: relative;color: #444;}
+	.mod_nav_inner a strong{font-weight: normal;display:block;height: 26px;;width: 100%;line-height: 24px;cursor: pointer;}
+	.mod_nav_inner li.current strong{background: #989da6;color: #fff;border-radius: 10px;-webkit-box-shadow: 0 1px 0 #7c8087 inset,0 -1px 0 #fff inset;box-shadow: 0 1px 0 #7c8087 inset,0 -1px 0 #fff inset;}
+	.mod_nav_slide{z-index:3;position:absolute;top:0px;right:0px;display:block;width:49px;height:44px;background-position:-65px -100px;-webkit-transform:translateZ(0px)}
+	.mod_nav_slide_l{background-position:-122px -100px;}
+
+.mod_nav_fixed{position:fixed;top:0;left:0;}
+
+/* 返回顶部 */
+	.mod_backtop{position: fixed;z-index:20;display:block;width:45px;height:45px;border-radius:4px;right:20px;bottom:10px;background-color: rgba(0,0,0,.7);opacity: 0;-webkit-transition: opacity 0.2s ease-out 0s;}
+	.mod_backtop:after{content: '';position:absolute;top:15px;left:11px;display:block;width:23px;height:15px;background-position:-35px -100px;}
+	.mod_backtop_active{opacity: 0.5;}
+
+/* 返回上一页 */
+	.mod_backprev{position: fixed;z-index:20;display:block;width:45px;height:45px;border-radius:4px;left:20px;bottom:10px;background-color: rgba(0,0,0,.7);opacity: 0.5;}
+	.mod_backprev:after{content: '';position:absolute;top:11px;left:15px;display:block;width:15px;height:23px;background-position:-180px -101px;}

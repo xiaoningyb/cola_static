@@ -1,0 +1,71 @@
+@charset "utf-8";
+/*========================================================================
+      @作者：hugohua
+      @说明：逛逛H5
+      @最后编辑：$Author:: hugohua           $
+                 $Date:: 2013-12-11 20:42:00#$
+========================================================================*/
+body{background: #fff;}
+.gg_page{ width: 320px; margin: 0 auto; padding-bottom: 1px;}
+.gg_page img{width: 100%;}
+.gg_mod_top_back,
+.gg_mod_top_del,
+.gg_mod_goods_del,
+.gg_page .error_ico,
+.gg_page .error_how:before,
+.gg_page .error_ico_more,
+.gg_page .error_view:after{ background-image:url("/icson/img/wx/guang/sprites.png");background-repeat:no-repeat;background-size:309px 139px;}
+/*公共模块*/
+.gg_mod_top{height: 44px; line-height: 44px; border-bottom: 1px solid #E1E1E1; margin-bottom: 20px; position: relative}
+    .gg_mod_top_tit{font-size: 16px; text-align: center; background: #000; color: #fff;}
+    .gg_mod_top_back{width:32px;height:32px;background-position:-106px -60px; position: absolute; top: 5px; left: 15px;}
+    .gg_mod_top_del{width:32px;height:32px;background-position:-150px -59px; position: absolute; top: 7px; right: 0;}
+    .gg_mod_top_done{ width: 61px; height: 26px; line-height: 26px; text-align: center; border-radius: 30px; background: #fff; border: 1px solid #EBEBEB; position: absolute; top: 8px; right: 15px; font-size: 16px; color: #000;}
+
+.gg_mod_goods:after{content:' ';display:block;clear:both;height:0;visibility:hidden;}
+.gg_mod_goods_item{ float: left;position: relative; width: 80px; margin:0 25px 15px 0;}
+.gg_mod_goods_item:nth-child(3n){margin-right: 0;}
+.gg_mod_goods_item a{display: block; }
+    .gg_mod_goods_tit{ margin: 3px 0; height: 28px; overflow:hidden; }
+    .gg_mod_goods_price{color: #c73d00;}
+    .gg_mod_goods_del{width: 48px; height: 48px;background-position:-238px -67px; line-height: 999em; overflow: hidden; position: absolute; top: -18px; right:-15px; opacity: 0; cursor: pointer; }
+    /*删除状态*/
+    .gg_mod_goods_remove .gg_mod_goods_del{opacity: 1;}
+
+.gg_mod_goods_remove .gg_mod_goods_del{
+    -webkit-backface-visibility:visible;
+    -webkit-transform-origin:center center;
+    -webkit-animation:rotate 0.5s 0s 1 ease normal none ;
+} @-webkit-keyframes rotate{
+      0%{
+          opacity: 0;
+          -webkit-transform:rotate(deg);
+      }
+      50%{
+          opacity: 1;
+      }
+      100%{
+            -webkit-transform:rotate(365deg);
+        }
+  }
+
+.gg_page .want{padding-left: 15px; margin-top: 20px;}
+
+
+
+/*更多商品*/
+.gg_page .more{margin:20px 0 10px 15px;}
+.gg_page .more_hd{font-size: 15px; color: #000; font-weight: 400; margin: 0 0 10px 0}
+.gg_page .more_hd span{color: #ff7e20;}
+
+/*error*/
+.gg_page .error{font-size: 17px; margin: 35px 0;}
+    .gg_page .error_info{ text-align: center;}
+    .gg_page .error_ico,
+    .gg_page .error_ico_more{width: 40px; height: 40px; display: inline-block;vertical-align: middle;background-position:-29px -93px;}
+    .gg_page .error_ico_more{ width: 60px; height: 42px; background-position:-71px -93px;}
+    .gg_page .error_desc{display: inline-block; vertical-align: middle; text-align: left;}
+        .gg_page .error_view:after{content: ''; width: 15px; height: 17px; display: inline-block; vertical-align: middle; background-position:-2px -86px;}
+    .gg_page .error_how{margin:0 0 10px 5px;}
+    .gg_page .error_how:before{content: ''; width: 13px; height: 13px; display: inline-block; background-position:-3px -106px;}
+    .gg_page .error_img{width: 247px; margin: 15px auto;}
