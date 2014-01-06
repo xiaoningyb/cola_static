@@ -430,13 +430,13 @@ cola.skSubscribe=function(){
 		var url=domain+'/SeckillSubscribe?callback=?';
 		$.getJSON(url,function(rp){
 			if(rp.errno==0){
-				alert('恭喜您预约成功');
+				$('#tips').className = $('#tips').className.replace(' hide','');
 			}
 			else if(rp.errno==20001){
-				alert('您已经预约过啦');
+				$('#tips1').className = $('#tips1').className.replace(' hide','');
 			}
 			else{
-				alert('秒杀资格预约失败'+rp.errno);
+				$('#tips1').className = $('#tips1').className.replace(' hide','');
 			}
 		});
 	}
