@@ -151,6 +151,7 @@ cola.initSk=function(){
 	};
 	
 	this._showProduct=function(idx,data){
+		var html=[];
 	    html.push('<div class="ms_goods1">');
         html.push('<a href="#" class="ms_goods1_img">');
         html.push('<img src="'+data.pic+'" alt="">');
