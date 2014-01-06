@@ -145,6 +145,7 @@ cola.initSk=function(){
 				prdInfo.stock=itemInfo.stock;
 				prdInfo.stockAll=itemInfo.stockAll;
 				prdInfo.price=itemInfo.qiangPrice;
+				prdInfo.yixunprice=itemInfo.yixunPrice;
 				self._showProduct(idx,prdInfo);
 			}
 		});
@@ -165,10 +166,10 @@ cola.initSk=function(){
 		html.push('<div class="ms_goods1_info">');
         html.push('<a class="ms_goods1_name" href="#">'+data.title+'</a>');
         html.push('<div class="ms_goods1_price"><span class="price">&yen;'+data.price
-        		  +'</span> <del class="old_price">&yen;'+data.price+'</del></div>');
+        		  +'</span> <del class="old_price">&yen;'+data.yixunprice+'</del></div>');
         html.push('<div class="ms_goods1_kc">');
         html.push('<span class="ms_goods1_kc_txt">库存</span>');
-        html.push('<span class="ms_goods1_kc_show"><span style="width:80%"></span></span></div>')
+        html.push('<span class="ms_goods1_kc_show"><span style="width:'+(prdInfo.stock*100/prdInfo.stockAll)+'%"></span></span></div>')
         html.push('<div class="ms_goods1_opt">');
         if(timeFlag>0){
         	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">3点开抢</a>');
