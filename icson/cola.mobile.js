@@ -178,8 +178,7 @@ cola.initSk=function(){
         	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">立即秒杀</a>');
         }
         html.push('</div></div></div>');
-        console.log(html.join(''));
-        $('ms_goods1').eq(idx).html(html.join(''));
+        $('.ms_goods1').eq(idx).html(html.join(''));
 		var self=this;
 		$('#'+skId).click(function(){
 			if(timeFlag>0){
