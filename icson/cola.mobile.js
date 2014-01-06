@@ -8,14 +8,30 @@ var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
 var codeMapping={
-		'10002':'您还没有预约秒杀资格',
-		'20002':'可乐币扣除失败，请检查余额是否足够'
+		'101':'请求失败',
+		'102':'OAuth错误',
+		'103':'您的QQ号还未绑定',
+		'104':'易迅登录认证失败',
+		'105':'OAuth登录认证失败',
+		'110':'该瓶盖码已被使用过',
+		'10001':'CMEM调用错误',
+		'10002':'该用户不存在',
+		'20001':'您已经预约过啦',
+		'20002':'可乐币扣除失败，请检查余额是否足够',
+		'20003':'可乐币退回失败',
+		'20004':'添加用户到参与列表失败',
+		'20005':'添加抢购名单错误',
+		'20006':'添加预约名单错误',
+		'30001':'参与秒杀日期错误',
+		'30002':'秒杀商品索引有误',
+		'30003':'没有参与该次秒杀',
+		'30004':'json数据解析错误',
 	};
 /**
  * 倒计时初始化
  * @return {[type]} [description]
  */
-cola.initTimer=function(){
+cola.initTimer=function(callback){
 		var self=this;
 		cola.getLeaveTime(function(rp){
 			if(rp.data<0){
@@ -48,8 +64,22 @@ cola.initTimer=function(){
 					hour='0'+hour;
 				}
 			}
-			var str='距离秒杀'+(timeFlag>0?'开始':'结束')+':'+hour+"时"+minute+"分"+seconds+"秒";
-			$('#timer').text(str);
+
+			if(typeof callback == 'function'){
+				var params={
+					'flag':timeFlag,
+					'hour':hour,
+					'minute':minute,
+					'seconds':seconds,
+					'leaveSec':sec
+				};
+				callback(params);
+			}
+			else{
+				var str='距离秒杀'+(timeFlag>0?'开始':'结束')+':'+hour+"时"+minute+"分"+seconds+"秒";
+				$('#timer').text(str);
+			}
+			
 		};
 };
 
@@ -162,7 +192,6 @@ cola.initSk=function(){
 	this._doSk=function(prdId,url){
 		if(cola.isLogin()){
 			cola.checkSubscribe(function(status){
-				status=1;
 				if(status==0){
 					alert('您还没有预约秒杀资格');
 					return false;
@@ -177,37 +206,57 @@ cola.initSk=function(){
 
 
 /**
- * 用户抽奖初始化
+ * 超级抢购初始化
  * @return {[type]} [description]
  */
-cola.initLottery=function(){
+cola.initSuperBuy=function(callback){
 	var self=this;
-	this.getLotteryList=function(){
+	var url='';
+	var settings={
+        dataType:'script',
+        scriptCharset:'gbk',
+        success:function(){
+			if(typeof callback == 'function'){
+				callback(GoodsInfo_51buy.pblock[0].list);
+			}
+			else{
+				console.log(GoodsInfo_51buy.pblock[0].list);
+			}
+		}
+
+    };
+    $.ajax('http://event.yixun.com/event/17091_info.js',settings);
+};
+
+/**
+ *  用户抽奖初始化
+ * @param  {[type]} callbackRender 奖项展现回调方法
+ * @param  {[type]} callbackShow   抽奖时的展现
+ * @return {[type]}                [description]
+ */
+cola.initLottery=function(callbackRender,callbackShow){
+	var self=this;
+	(function(){
 		var url=domain+'/lotteryquery?component_id=245&callback=?';
 		$.getJSON(url,function(rp){
 			if(rp.errno==0){
-				self.lotteryRender(rp.award_list);
-				self.runLottery();
-			}
-		});
-	};
-	
-	this.lotteryRender=function(data){
-		if(!$.isEmptyObject(data)){
-			//@todo
-		}
-	};
-
-	this.runLottery=function(){
-		var url=domain+'/lottery?component_id=245&verify_code=1&callback=?';
-		$.getJSON(url,function(rp){
-			if(rp.errno==0){
+				if(typeof callbackRender == 'function'){
+					callbackRender(rp.award_list);
+					self.runLottery();
+				}
 				
 			}
-			else{
-				alert('get lottery failed');
-			}
 		});
+	})();
+	
+	this.runLottery=function(){
+		$('#bt_lottery').click(function(){
+			var url=domain+'/lottery?component_id=245&verify_code=1&callback=?';
+			$.getJSON(url,function(rp){
+				callbackShow(rp);
+			});
+		});
+		
 	};
 };
 
@@ -299,6 +348,7 @@ cola.getProductInfo=function(prdId,callback){
 		if(pageInfo.errCode===0){
 			var prdInfo={};
 			var itemInfo=pageInfo.itemInfo;
+			prdInfo.activeId=itemInfo.activeId;
 			prdInfo.prdId=prdId;
 			prdInfo.title=itemInfo.title;
 			var m=itemInfo.p_char_id.match(/^(\d+)\-(\d+)\-(\d+)$/);
@@ -315,26 +365,47 @@ cola.getProductInfo=function(prdId,callback){
 };
 
 /**
- * 查询用户可用的可乐币数量
- * @return {[type]} [description]
+ * [storePincode description]
+ * @param  {[type]} pincode [description]
+ * @return {[type]}         [description]
  */
-cola.getPincodeCount=function(){
-	var url=domain+'/colacoinquery?callback=?';
-	$.getJSON(url,function(rp){
+cola.storePincode=function(pincode){
+	var url=domain+'/cola/colacoinadd?callback=?';
+	var params={'pincode':pincode};
+	$.getJSON(url,params,function(rp){
 		if(rp.errno==0){
-
+			cola.getPincodeCount();
 		}
 		else{
-			alert('error:'+rp.errno);
+			alert(cola.code2error(rp.errno));
 		}
 	});
 };
 
 /**
- * 获取用户可乐币
+ * 查询用户可用的可乐币数量
  * @return {[type]} [description]
  */
-cola.getColaCoinsHistory=function(page,pageSize){
+cola.getPincodeCount=function(){
+	var url=domain+'/cola/colacoinquery?callback=?';
+	$.getJSON(url,function(rp){
+		if(rp.errno==0){
+			$('#pincode_count').html(rp.data.colacoin);
+		}
+		else{
+			console.log('get pincode errno:'+rp.errno);
+		}
+	});
+};
+
+/**
+ * 用户可乐币
+ * @param  {[type]}   page     [description]
+ * @param  {[type]}   pageSize [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+cola.getColaCoinsHistory=function(page,pageSize,callback){
 	var offset=(page-1)*pageSize;
 	if(offset<0){
 		offset=0;
@@ -342,7 +413,9 @@ cola.getColaCoinsHistory=function(page,pageSize){
 	var url=domain+'/colacoinhistory?callback=?';
 	var params={'offset':offset};
 	$.getJSON(url,params,function(rp){
-
+		if(typeof callback == 'function'){
+			callback(rp);
+		}
 	});
 };
 
@@ -361,7 +434,7 @@ cola.skSubscribe=function(){
 				alert('您已经预约过啦');
 			}
 			else{
-				alert('秒杀资格预约失败');
+				alert('秒杀资格预约失败'+rp.errno);
 			}
 		});
 	}
@@ -375,7 +448,6 @@ cola.skSubscribe=function(){
 cola.checkSubscribe=function(callback){
 	var url=domain+'/SeckillCheck?callback=?';
 	$.getJSON(url,function(rp){
-		rp.errno=0;
 		if(rp.errno==0){
 			if($.isFunction(callback)){
 				callback(rp.data);
@@ -409,17 +481,26 @@ cola.bindQQ=function(qq){
  * @return {[type]}            [description]
  */
 cola.getLeaveTime=function(callback){
-	var url=domain+'/time?callback=?';
-	$.getJSON(url,function(rp){
-		if(rp.errno==0){
-			if($.isFunction(callback)){
-				callback(rp);
+	var url=domain+'/time';
+	var settings={
+		url:url,
+		type:'GET',
+		async:false,
+		dataType: 'jsonp',
+		jsonp: "callback",
+		jsonpCallback:'timeCallback',
+		success:function(rp){
+			if(rp.errno==0){
+				if($.isFunction(callback)){
+					callback(rp);
+				}
+			}
+			else{
+				alert('time initialize failed!');
 			}
 		}
-		else{
-			alert('time initialize failed!');
-		}
-	});
+	};
+	$.ajax(settings);
 };
 
 /**
@@ -512,6 +593,15 @@ cola.doPost=function(url,data,callback,charset){
 	form.submit();
 };
 
+/**
+ * 检测pincode格式
+ * @param  {[type]} pincode [description]
+ * @return {[type]}         [description]
+ */
+cola.checkPincode=function(pincode){
+	var reg=new RegExp('^[a-zA-Z0-9]{13}$');
+	return reg.test(pincode);
+};
 
 
 
