@@ -169,7 +169,7 @@ cola.initSk=function(){
         		  +'</span> <del class="old_price">&yen;'+data.yixunprice+'</del></div>');
         html.push('<div class="ms_goods1_kc">');
         html.push('<span class="ms_goods1_kc_txt">库存</span>');
-        html.push('<span class="ms_goods1_kc_show"><span style="width:'+(prdInfo.stock*100/prdInfo.stockAll)+'%"></span></span></div>')
+        html.push('<span class="ms_goods1_kc_show"><span style="width:'+(data.stock*100/data.stockAll)+'%"></span></span></div>')
         html.push('<div class="ms_goods1_opt">');
         if(timeFlag>0){
         	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">3点开抢</a>');
