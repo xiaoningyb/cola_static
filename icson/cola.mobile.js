@@ -237,7 +237,7 @@ cola.initSuperBuy=function(callback){
 cola.initLottery=function(callbackRender,callbackShow){
 	var self=this;
 	(function(){
-		var url=domain+'/lotteryquery?component_id=245&callback=?';
+		var url=domain+'/lotteryquery?component_id=1224&callback=?';
 		$.getJSON(url,function(rp){
 			if(rp.errno==0){
 				if(typeof callbackRender == 'function'){
@@ -251,7 +251,7 @@ cola.initLottery=function(callbackRender,callbackShow){
 	
 	this.runLottery=function(){
 		$('#bt_lottery').click(function(){
-			var url=domain+'/lottery?component_id=245&verify_code=1&callback=?';
+			var url=domain+'/lottery?component_id=1224&verify_code=1&callback=?';
 			$.getJSON(url,function(rp){
 				callbackShow(rp);
 			});
