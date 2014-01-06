@@ -432,8 +432,16 @@ cola.skSubscribe=function(){
 			if(rp.errno==0){
 				$('#tips').show();
 			}
+			else if(rp.errno==10002){
+				$('#tips1_txt').html('<p>无用户信息，请登陆</p>');
+				$('#tips1').show();
+			}
 			else if(rp.errno==20001){
 				$('#tips1_txt').html('<p>你已经拥有本期秒杀资格</p>');
+				$('#tips1').show();
+			}
+			else if(rp.errno==20002){
+				$('#tips1_txt').html('<p>可乐币不足</p>');
 				$('#tips1').show();
 			}
 			else{
