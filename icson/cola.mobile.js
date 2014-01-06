@@ -430,13 +430,15 @@ cola.skSubscribe=function(){
 		var url=domain+'/SeckillSubscribe?callback=?';
 		$.getJSON(url,function(rp){
 			if(rp.errno==0){
-				$('#tips').className = $('#tips').className.replace(' hide','');
+				$('#tips').show();
 			}
 			else if(rp.errno==20001){
-				$('#tips1').className = $('#tips1').className.replace(' hide','');
+				$('#tips1_txt').html('<p>你已经拥有本期秒杀资格</p>');
+				$('#tips1').show();
 			}
 			else{
-				$('#tips1').className = $('#tips1').className.replace(' hide','');
+			    $('#tips1_txt').html('<p>系统错误:'+rp.errno+'</p>');
+				$('#tips1').show();
 			}
 		});
 	}
