@@ -121,23 +121,32 @@ cola.initSk=function(){
 	};
 	
 	this._showProduct=function(idx,data){
-		var skId='sk_'+idx+'_bt';
-		var html=[];
-		html.push('<ul>');
-		html.push('<li class="prd_img"><img src="'+data.pic+'" width=160 height=160 /></li>');
-		html.push('<li class="prd_desc">');
-		html.push('	<h5>商品名称：'+data.title+'</h5>');
-		html.push('	<h5>价格：'+data.price+'</h5>');
-		html.push('	<h5>库存：</h5>');
-		if(timeFlag>0){
-			html.push('<span>15点开抢</span>');
-		}
-		else{
-			html.push('<span><a id="'+skId+'" href="javascript:;">立即秒杀</a></span>');
-		}
-		html.push('</li>');
-		html.push('</ul>');
-		$('div.prd_item').eq(idx).html(html.join(''));
+	    html.push('<div class="ms_goods1">');
+        html.push('<a href="#" class="ms_goods1_img">');
+        html.push('<img src="'+data.pic+'" alt="">');
+        if(idx==0) {
+        	html.push('<span class="ms_goods1_tips1">0元秒</span></a>');
+        }
+        else {
+        	html.push('<span class="ms_goods1_tips2">3折秒</span></a>');
+        }
+                
+		html.push('<div class="ms_goods1_info">');
+        html.push('<a class="ms_goods1_name" href="#">'+data.title+'</a>');
+        html.push('<div class="ms_goods1_price"><span class="price">&yen;'+data.price
+        		  +'</span> <del class="old_price">&yen;'+data.price+'</del></div>');
+        html.push('<div class="ms_goods1_kc">');
+        html.push('<span class="ms_goods1_kc_txt">库存</span>');
+        html.push('<span class="ms_goods1_kc_show"><span style="width:80%"></span></span></div>')
+        html.push('<div class="ms_goods1_opt">');
+        if(timeFlag>0){
+        	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">3点开抢</a>');
+        }
+        else {
+        	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">立即秒杀</a>');
+        }
+        html.push('</div></div></div>');
+        $('ms_goods1').eq(idx).html(html.join(''));
 		var self=this;
 		$('#'+skId).click(function(){
 			if(timeFlag>0){
