@@ -153,7 +153,6 @@ cola.initSk=function(){
 	this._showProduct=function(idx,data){
 	    var skId='sk_'+idx+'_bt';
 		var html=[];
-	    html.push('<div class="ms_goods1">');
         html.push('<a href="#" class="ms_goods1_img">');
         html.push('<img src="'+data.pic+'" alt="">');
         if(idx==0) {
@@ -177,7 +176,7 @@ cola.initSk=function(){
         else {
         	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">立即秒杀</a>');
         }
-        html.push('</div></div></div>');
+        html.push('</div></div>');
         $('.ms_goods1').eq(idx).html(html.join(''));
 		var self=this;
 		$('#'+skId).click(function(){
