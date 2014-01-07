@@ -165,8 +165,8 @@ cola.initSk=function(){
                 
 		html.push('<div class="ms_goods1_info">');
         html.push('<a class="ms_goods1_name" href="#">'+data.title+'</a>');
-        html.push('<div class="ms_goods1_price"><span class="price">&yen;'+data.price
-        		  +'</span> <del class="old_price">&yen;'+data.yixunprice+'</del></div>');
+        html.push('<div class="ms_goods1_price"><span class="price">&yen;'+parseFloat(data.price)
+        		  +'</span> <del class="old_price">&yen;'+parseFloat(data.yixunprice)+'</del></div>');
         html.push('<div class="ms_goods1_kc">');
         html.push('<span class="ms_goods1_kc_txt">库存</span>');
         html.push('<span class="ms_goods1_kc_show"><span style="width:'+(data.stock*100/data.stockAll)+'%"></span></span></div>')
