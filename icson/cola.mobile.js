@@ -4,7 +4,7 @@
  */
 var cola={};
 var domain=location.protocol+'//'+location.host+'/'+(/weixin\.yixun\.com/.test(location.host.toString())?'coladev':'cola');
-//domain='http://3pm.event.51buy.com/cola';
+domain='http://3pm.event.51buy.com/cola';
 var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
@@ -122,18 +122,6 @@ cola.InitGift=function(){
 		$.getJSON(url,params,function(rp){
 			if(typeof callback == 'function'){
 				callback(rp);
-			}
-		});
-	};
-
-	this.getUserAddress=function(callback){
-		var url=domain+'/getaddr?callback=?';
-		$.getJSON(url,function(rp){
-			if(rp.errno==0){
-				callback(rp);
-			}
-			else{
-				alert(cola.code2error(rp.errno));	
 			}
 		});
 	};
@@ -302,6 +290,15 @@ cola.initLottery=function(){
 		});
 	};
 
+	this.getLeaveTimes=function(callback){
+		var url=domain+'?callback=?';
+		$.getJSON(url,function(rp){
+			if(typeof callback == 'function'){
+				callback(rp);
+			}
+		});
+	};
+
 	return this;
 };
 
@@ -340,6 +337,23 @@ cola.getUserAddress=function(callback){
 		}
 		else{
 			alert('地址信息拉取失败');
+		}
+	});
+};
+
+/**
+ * 获取用户兑换、抽奖地址
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+cola.getUserGiftAddress=function(callback){
+	var url=domain+'/getaddr?callback=?';
+	$.getJSON(url,function(rp){
+		if(rp.errno==0){
+			callback(rp);
+		}
+		else{
+			alert(cola.code2error(rp.errno));	
 		}
 	});
 };
