@@ -4,7 +4,7 @@
  */
 var cola={};
 var domain=location.protocol+'//'+location.host+'/'+(/weixin\.yixun\.com/.test(location.host.toString())?'coladev':'cola');
-domain='http://3pm.event.51buy.com/cola';
+//domain='http://3pm.event.51buy.com/cola';
 var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
