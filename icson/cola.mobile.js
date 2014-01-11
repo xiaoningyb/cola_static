@@ -8,7 +8,7 @@ var domain=location.protocol+'//'+location.host+'/'+(/weixin\.yixun\.com/.test(l
 var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
-var lotteryId=245;
+var lotteryId=1224;
 var actId=17091;
 var codeMapping={
 		'101':'请求失败',
