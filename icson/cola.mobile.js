@@ -3,12 +3,12 @@
  * @type {Object}
  */
 var cola={};
-var domain=location.protocol+'//'+location.host+'/'+(/weixin\.yixun\.com/.test(location.host.toString())?'coladev':'cola');
-domain='http://3pm.event.51buy.com/cola';
+//var domain=location.protocol+'//'+location.host+'/'+(/weixin\.yixun\.com/.test(location.host.toString())?'coladev':'cola');
+var domain='http://weixin.yixun.com/coladev';
 var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
-var lotteryId=245;
+var lotteryId=1224;
 var actId=17091;
 var codeMapping={
 		'101':'请求失败',
@@ -270,6 +270,11 @@ cola.initSuperBuy=function(callback){
  * @return {[type]}                [description]
  */
 cola.initLottery=function(){
+	/**
+	 * 获取奖项列表
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
+	 */
 	this.getLotteryList=function(callback){
 		var url=domain+'/lotteryquery?component_id='+lotteryId+'&callback=?';
 		$.getJSON(url,function(rp){
@@ -281,6 +286,11 @@ cola.initLottery=function(){
 		});
 	};
 	
+	/**
+	 * 抽奖
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
+	 */
 	this.getLottery=function(callback){
 		var url=domain+'/lottery?component_id='+lotteryId+'&verify_code=1&callback=?';
 		$.getJSON(url,function(rp){
@@ -290,8 +300,13 @@ cola.initLottery=function(){
 		});
 	};
 
+	/**
+	 * 获取用户可用的抽奖次数
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
+	 */
 	this.getLeaveTimes=function(callback){
-		var url=domain+'?callback=?';
+		var url=domain+'/lotteryusernumber?component_id='+lotteryId+'&callback=?';
 		$.getJSON(url,function(rp){
 			if(typeof callback == 'function'){
 				callback(rp);
@@ -690,9 +705,9 @@ cola.getCookie=function(objName){//获取指定名称的cookie的值
  
 cola.isBind=function(){
     var isBind = cola.getCookie("colabind");
-    if(isBind == 0) return false;
+    if(isBind == 1) return true;
                   
-    return true;
+    return false;
 }
         
 cola.getMyAccountUrl=function(url)
