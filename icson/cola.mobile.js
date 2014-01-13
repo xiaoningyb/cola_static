@@ -695,13 +695,14 @@ cola.isBind=function(){
     return true;
 }
         
-cola.getMyAccountUrl=function()
+cola.getMyAccountUrl=function(url)
 {
-    return domain+"/bind";
+    var s = domain+"/bind";
+    return url == "" ? s : s + "?redirct=" + encodeURI(url);
 }
         
 cola.getToBindUrl=function(url){
-    return "https://ssl.ui.ptlogin2.yixun.com/cgi-bin/login?appid=700028403&daid=174&style=8&hln_custompage=0&pt_logo_14=1&pt_open_appid=1&hln_css=http%3A%2F%2Fstatic.gtimg.com/icson/img/app/weixin/logo.png&s_url=http://ecclogin.yixun.com/login/mobileqqlogin?surl=" + encodeURI(domain+"/dobind?redirect=" + url);
+    return "https://ssl.ui.ptlogin2.yixun.com/cgi-bin/login?appid=700028403&daid=174&style=8&hln_custompage=0&pt_logo_14=1&pt_open_appid=1&hln_css=http%3A%2F%2Fstatic.gtimg.com/icson/img/app/weixin/logo.png&s_url=http://ecclogin.yixun.com/login/mobileqqlogin?surl=" + encodeURI(domain+"/dobind?redirect=" + encodeURI(url));
 }
 
 
