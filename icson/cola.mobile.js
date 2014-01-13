@@ -127,7 +127,7 @@ cola.InitGift=function(){
 	};
 
 	this.addUserAddress=function(strAddress,callback){
-		var url=domain+'/setaddr?callback=?';
+		var url=domain+'/setaddr?addr=' + encodeURI(strAddress) + '&callback=?';
 		$.getJSON(url,function(rp){
 			if(rp.errno==0){
 				if(typeof callback == 'function'){
