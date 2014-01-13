@@ -4,11 +4,11 @@
  */
 var cola={};
 var domain=location.protocol+'//'+location.host+'/'+(/weixin\.yixun\.com/.test(location.host.toString())?'coladev':'cola');
-//domain='http://3pm.event.51buy.com/cola';
+domain='http://3pm.event.51buy.com/cola';
 var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
-var lotteryId=1224;
+var lotteryId=245;
 var actId=17091;
 var codeMapping={
 		'101':'请求失败',
@@ -678,6 +678,30 @@ cola.checkPincode=function(pincode){
 cola.goback=function(url){
 	var url=url||document.referrer
 	window.location=url;
+}
+
+cola.getCookie=function(objName){//获取指定名称的cookie的值
+    var arrStr = document.cookie.split("; ");
+    for(var i = 0;i < arrStr.length;i ++){
+        var temp = arrStr[i].split("=");
+        if(temp[0] == objName) return unescape(temp[1]);
+    }
+}       
+ 
+cola.isBind=function(){
+    var isBind = cola.getCookie("colabind");
+    if(isBind == 0) return false;
+                  
+    return true;
+}
+        
+cola.getMyAccountUrl=function()
+{
+    return domain+"/bind";
+}
+        
+cola.getToBindUrl=function(url){
+    return "https://ssl.ui.ptlogin2.yixun.com/cgi-bin/login?appid=700028403&daid=174&style=8&hln_custompage=0&pt_logo_14=1&pt_open_appid=1&hln_css=http%3A%2F%2Fstatic.gtimg.com/icson/img/app/weixin/logo.png&s_url=http://ecclogin.yixun.com/login/mobileqqlogin?surl=" + encodeURI(domain+"/dobind?redirect=" + url);
 }
 
 
