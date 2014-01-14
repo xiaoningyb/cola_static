@@ -149,7 +149,7 @@ cola.InitGift=function(){
 cola.initSk=function(){
 	var self=this;
 	this.getSkList=function(){
-		var url=domain+'/seckillquery?callback=?&date=20131213';
+		var url=domain+'/seckillquery?callback=?&date=20140114';
 		$.getJSON(url,function(rp){
 			if(rp.errno==0){
 				var data=rp.data;
