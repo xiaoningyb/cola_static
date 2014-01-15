@@ -369,12 +369,8 @@ cola.getUserAddress=function(callback){
 cola.getUserGiftAddress=function(callback){
 	var url=domain+'/getaddr?callback=?';
 	$.getJSON(url,function(rp){
-		if(rp.errno==0){
+		if(typeof callback == 'function'){
 			callback(rp);
-		}
-		else{
-			var options = {"okText" : "确定", "contents" : cola.code2error(rp.errno)};
-			cola.msgbox.show(null, null, options, 1); 
 		}
 	});
 };
