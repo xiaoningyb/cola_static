@@ -180,7 +180,7 @@ cola.initSk=function(){
 				prdInfo.stock=itemInfo.stock;
 				prdInfo.stockAll=itemInfo.stockAll;
 				prdInfo.price=itemInfo.qiangPrice;
-			        prdInfo.yixunprice=itemInfo.yixunPrice;
+			    prdInfo.yixunprice=itemInfo.yixunPrice;
 				self._showProduct(idx,prdInfo);
 			}
 		});
@@ -198,7 +198,7 @@ cola.initSk=function(){
         	html.push('<span class="ms_goods1_tips2">3折秒</span></a>');
             }
             
-	    html.push('<div class="ms_goods1_info">');
+	    	html.push('<div class="ms_goods1_info">');
             html.push('<a class="ms_goods1_name" href="#">'+data.title+'</a>');
             html.push('<div class="ms_goods1_price"><span class="price">&yen;'+parseFloat(data.price)
         	      +'</span> <del class="old_price">&yen;'+parseFloat(data.yixunprice)+'</del></div>');
@@ -219,7 +219,7 @@ cola.initSk=function(){
 		if(timeFlag>0){
 		    alert('请耐心等待，秒杀将于今日15:00准时开始哦!');
 		    return false
-		};
+		}
 		var url='seckillorder?prdId='+data.prdId;
 		self._doSk(data.prdId,url);
 		return false;
@@ -693,7 +693,7 @@ cola.checkPincode=function(pincode){
 cola.goback=function(url){
 	var url=url||document.referrer
 	window.location=url;
-}
+};
 
 cola.getCookie=function(objName){//获取指定名称的cookie的值
     var arrStr = document.cookie.split("; ");
@@ -701,29 +701,119 @@ cola.getCookie=function(objName){//获取指定名称的cookie的值
         var temp = arrStr[i].split("=");
         if(temp[0] == objName) return unescape(temp[1]);
     }
-}       
+};       
  
 cola.isBind=function(){
     var isBind = cola.getCookie("colabind");
     if(isBind == 1) return true;
                   
     return false;
-}
+};
         
 cola.getMyAccountUrl=function(url)
 {
     var s = domain+"/bind";
     return url == "" ? s : s + "?redirect=" + encodeURI(url);
-}
+};
         
 cola.getToBindUrl=function(url){
     return "https://ssl.ui.ptlogin2.yixun.com/cgi-bin/login?appid=700028403&daid=174&style=8&hln_custompage=0&pt_logo_14=1&pt_open_appid=1&hln_css=http%3A%2F%2Fstatic.gtimg.com/icson/img/app/weixin/logo.png&s_url=http://ecclogin.yixun.com/login/mobileqqlogin?surl=" + encodeURI(domain+"/dobind?redirect=" + encodeURI(url));
-}
+};
+
+/**
+ * 弹出提示层
+ * @type {Object}
+ */
+cola.msgbox={
+	/**
+	 * [show description]
+	 * @param  {[type]} okFun    [description]
+	 * @param  {[type]} closeFun [description]
+	 * @param  {[type]} options  [description]
+	 * @param  int type     1:common 2:success 3:failure 
+	 * @return {[type]}          [description]
+	 */
+	show:function(okFun,closeFun,options,type){
+		cola.msgbox._render(options,type);
+		cola.msgbox._bindEvent(okFun,closeFun);
+	},
+	close:function(){
+		cola.msgbox._remove();
+	},
+	_msgbox:null,
+	_render:function(options,type){
+		var options=options||{};
+		var type=type||1;
+		var container=$('body');
+		var tipClass='';
+		var btnClass='';
+		var html=[];
+		if(type==2){
+			tipClass='tip_ok';
+		}
+		else if(type==3){
+			tipClass='tip_alert';
+		}
+		html.push('<div class="tip '+tipClass+'">');
+		html.push('<div class="tip_bg"></div>');
+		html.push('<div class="tip_bd">');
+		if(type!=1){
+			html.push('<div class="tip_sec tip_tit">');
+			html.push('<i class="ico tip_ico"></i>');
+			if(typeof options.title!='undefined'){
+				html.push(options.title);
+			}
+			html.push('</div>');
+		}
+		html.push('<div class="tip_sec tip_cnt">');
+		if(typeof options.contents != 'undefined'){
+			html.push(options.contents);
+		}
+		html.push('</div>');
+		if(typeof options.closeText != 'undefined' && typeof options.okText != 'undefined'){
+			btnClass='btn_group';
+		}
+		html.push('<div class="tip_sec tip_action '+btnClass+'">');
+		if(typeof options.closeText != 'undefined'){
+			html.push('<a class="cola_msgbox_close btn btn_em" href="javascript:;"><span class="btn_inner">'+options.closeText+'</span></a>');
+		}
+		if(typeof options.okText != 'undefined'){
+			html.push('<a class="cola_msgbox_ok btn btn_em" href="javascript:;"><span class="btn_inner">'+options.okText+'</span></a>');
+		}
+		html.push('</div>');
+		html.push('</div>');
+		html.push('</div>');
+		cola.msgbox._msgbox=$(html.join(''));
+		container.append(cola.msgbox._msgbox);
+	},
+	_bindEvent:function(okFun,closeFun){
+		$('.cola_msgbox_close').click(function(){
+			if(typeof closeFun == 'function' ){
+				closeFun();
+			}
+			cola.msgbox._remove();
+		});
+		$('.cola_msgbox_ok').click(function(){
+			if(typeof okFun == 'function' ){
+				okFun();
+			}
+			else{
+				cola.msgbox._remove();
+			}
+		});
+	},
+	_remove:function(){
+		if(cola.msgbox._msgbox!=null){
+			cola.msgbox._msgbox.remove();
+		}
+	}
+};
 
 cola.getToBindUrlDefault = function(){
 	var redirect = window.location.href;
 	return cola.getToBindUrl(redirect);
 }
+
 
 cola.initLoginAndBindDefault = function(){
 	if(cola.isBind()){
@@ -734,8 +824,4 @@ cola.initLoginAndBindDefault = function(){
 	var url = cola.getMyAccountUrl(redirect);
 	window.location = url;
 }
-
-
-
-
 
