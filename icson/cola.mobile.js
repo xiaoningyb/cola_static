@@ -429,7 +429,6 @@ cola.storePincode=function(pincode,callback){
 cola.getPincodeCount=function(callback){
 	var url=domain+'/colacoinquery?callback=?';
 	$.getJSON(url,function(rp){
-		callback(rp.data.colacoin);
 		if(rp.errno==0){
 			if(typeof callback == 'function'){
 				callback(rp.data.colacoin);
@@ -758,11 +757,10 @@ cola.msgbox={
 		html.push('<div class="tip_bg"></div>');
 		html.push('<div class="tip_bd">');
 		if(type!=1){
+			options.title=options.title||'提示';
 			html.push('<div class="tip_sec tip_tit">');
 			html.push('<i class="ico tip_ico"></i>');
-			if(typeof options.title!='undefined'){
-				html.push(options.title);
-			}
+			html.push(options.title);
 			html.push('</div>');
 		}
 		html.push('<div class="tip_sec tip_cnt">');
@@ -775,7 +773,7 @@ cola.msgbox={
 		}
 		html.push('<div class="tip_sec tip_action '+btnClass+'">');
 		if(typeof options.closeText != 'undefined'){
-			html.push('<a class="cola_msgbox_close btn btn_em" href="javascript:;"><span class="btn_inner">'+options.closeText+'</span></a>');
+			html.push('<a class="cola_msgbox_close btn btn_weak" href="javascript:;"><span class="btn_inner">'+options.closeText+'</span></a>');
 		}
 		if(typeof options.okText != 'undefined'){
 			html.push('<a class="cola_msgbox_ok btn btn_em" href="javascript:;"><span class="btn_inner">'+options.okText+'</span></a>');
