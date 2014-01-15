@@ -3,8 +3,8 @@
  * @type {Object}
  */
 var cola={};
-//var domain=location.protocol+'//'+location.host+'/'+(/weixin\.yixun\.com/.test(location.host.toString())?'coladev':'cola');
-var domain='http://weixin.yixun.com/coladev';
+//var domain=location.protocol+'//'+location.host+'/'+(/weixin\.yixun\.com/.test(location.host.toString())?'colabeta':'cola');
+var domain='http://weixin.yixun.com/colabeta';
 var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
