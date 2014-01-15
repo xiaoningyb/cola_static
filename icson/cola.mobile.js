@@ -135,7 +135,8 @@ cola.InitGift=function(){
 				}
 			}
 			else{
-				alert(cola.code2error(rp.errno));	
+				var options = {"okText" : "确定", "contents" : cola.code2error(rp.errno)};
+				cola.msgbox.show(null, null, options, 1); 
 			}
 		});
 	};
@@ -159,7 +160,8 @@ cola.initSk=function(){
 
 			}
 			else{
-				alert('data loaded error!');
+				var options = {"okText" : "确定", "contents" : 'data loaded error!'};
+				cola.msgbox.show(null, null, options, 1); 
 			}
 		});
 	};
@@ -217,7 +219,8 @@ cola.initSk=function(){
 	    var self=this;
 	    $('#'+skId).click(function(){
 		if(timeFlag>0){
-		    alert('请耐心等待，秒杀将于今日15:00准时开始哦!');
+			var options = {"okText" : "确定", "contents" : "请耐心等待，秒杀将于今日15:00准时开始哦!"};
+			cola.msgbox.show(null, null, options, 1); 
 		    return false
 		}
 		var url='seckillorder?prdId='+data.prdId;
@@ -230,7 +233,8 @@ cola.initSk=function(){
 		if(cola.isLogin()){
 			cola.checkSubscribe(function(status){
 				if(status==0){
-					alert('您还没有预约秒杀资格');
+					var options = {"okText" : "确定", "contents" : "您还没有预约秒杀资格!"};
+					cola.msgbox.show(null, null, options, 1); 
 					return false;
 				}
 				window.location=url;
@@ -351,7 +355,8 @@ cola.getUserAddress=function(callback){
 			}
 		}
 		else{
-			alert('地址信息拉取失败');
+			var options = {"okText" : "确定", "contents" : "地址信息拉取失败!"};
+			cola.msgbox.show(null, null, options, 1); 
 		}
 	});
 };
@@ -368,7 +373,8 @@ cola.getUserGiftAddress=function(callback){
 			callback(rp);
 		}
 		else{
-			alert(cola.code2error(rp.errno));	
+			var options = {"okText" : "确定", "contents" : cola.code2error(rp.errno)};
+			cola.msgbox.show(null, null, options, 1); 
 		}
 	});
 };
@@ -411,13 +417,8 @@ cola.storePincode=function(pincode,callback){
 	var url=domain+'/cola/colacoinadd?callback=?';
 	var params={'pincode':pincode};
 	$.getJSON(url,params,function(rp){
-		if(rp.errno==0){
-			if(typeof callback == 'function'){
-				callback();
-			}
-		}
-		else{
-			alert(cola.code2error(rp.errno));
+		if(typeof callback == 'function'){
+			callback(rp);
 		}
 	});
 };
@@ -429,13 +430,8 @@ cola.storePincode=function(pincode,callback){
 cola.getPincodeCount=function(callback){
 	var url=domain+'/colacoinquery?callback=?';
 	$.getJSON(url,function(rp){
-		if(rp.errno==0){
-			if(typeof callback == 'function'){
-				callback(rp.data.colacoin);
-			}
-		}
-		else{
-			console.log('error:'+rp.errno);
+		if(typeof callback == 'function'){
+			callback(rp);
 		}
 	});
 };
@@ -447,13 +443,12 @@ cola.getPincodeCount=function(callback){
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-cola.getColaCoinsHistory=function(page,pageSize,callback){
-	var offset=(page-1)*pageSize;
+cola.getColaCoinsHistory=function(offset,pageSize,callback){
 	if(offset<0){
 		offset=0;
 	}
 	var url=domain+'/colacoinhistory?callback=?';
-	var params={'offset':offset};
+	var params={'offset':offset, 'size' : pageSize};
 	$.getJSON(url,params,function(rp){
 		if(typeof callback == 'function'){
 			callback(rp);
@@ -475,26 +470,20 @@ cola.skSubscribe=function(){
 				$('#sk_join').show();
 			}
 			else if(rp.errno==10002){
-				$('#tips1_txt').html('<p>无用户信息，请登陆</p>');
-				$('#tips1').show();
-				$('#sk_no').show();
-				$('#sk_join').hide();
+				var options = {"okText" : "确定", "contents" : '无用户信息，请登陆'};
+				cola.msgbox.show(null, null, options, 1); 
 			}
 			else if(rp.errno==20001){
-				$('#tips1_txt').html('<p>你已经拥有本期秒杀资格</p>');
-				$('#tips1').show();
-				$('#sk_no').show();
-				$('#sk_join').hide();
+				var options = {"okText" : "确定", "contents" : '你已经拥有本期秒杀资格'};
+				cola.msgbox.show(null, null, options, 1); 
 			}
 			else if(rp.errno==20002){
-				$('#tips1_txt').html('<p>可乐币不足</p>');
-				$('#tips1').show();
-				$('#sk_no').show();
-				$('#sk_join').hide();
+				var options = {"okText" : "确定", "contents" : '可乐币不足'};
+				cola.msgbox.show(null, null, options, 1); 
 			}
 			else{
-			        $('#tips1_txt').html('<p>系统错误:'+rp.errno+'</p>');
-			        $('#tips1').show();
+				var options = {"okText" : "确定", "contents" : '系统错误:'+rp.errno};
+				cola.msgbox.show(null, null, options, 1); 
 			}
 		});
 	}
@@ -514,7 +503,8 @@ cola.checkSubscribe=function(callback){
 			}
 		}
 		else{
-			alert(cola.code2error(rp.errno));
+			var options = {"okText" : "确定", "contents" : cola.code2error(rp.errno)};
+			cola.msgbox.show(null, null, options, 1); 
 		}
 	});	
 };
@@ -590,7 +580,8 @@ cola.getLeaveTime=function(callback){
 				}
 			}
 			else{
-				alert('time initialize failed!');
+				var options = {"okText" : "确定", "contents" : "time initialize failed!"};
+				cola.msgbox.show(null, null, options, 1); 
 			}
 		}
 	};
@@ -628,7 +619,8 @@ cola.isLogin=function(){
 	var isLogin=$.trim(cola.getCookie('uid')) === ''?false:true;
 	isLogin=true;
 	if(!isLogin){
-		alert('请您登录进行下一步操作');
+		var options = {"okText" : "确定", "contents" : "请您登录进行下一步操作!"};
+		cola.msgbox.show(null, null, options, 1); 
 	}
 	return isLogin;
 };
