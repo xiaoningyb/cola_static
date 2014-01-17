@@ -732,6 +732,10 @@ cola.msgbox={
 	close:function(){
 		cola.msgbox._remove();
 	},
+	showinfo:function(okFun, closeFun, okText, contents){
+		var options = {'okText' : okText, 'contents' : contents};
+		cola.msgbox.show(okFun, closeFun, options, 1);
+	},
 	_msgbox:null,
 	_render:function(options,type){
 		var options=options||{};
