@@ -8,7 +8,7 @@ var domain='http://weixin.yixun.com/colabeta';
 var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
-var lotteryId=1224;
+var lotteryId=72;
 var actId=17091;
 var codeMapping={
 		'101':'请求失败',
@@ -346,17 +346,22 @@ cola.getDiscountList=function(callback){
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-cola.getUserAddress=function(callback){
+cola.getUserAddress=function(okFun,failFun){
 	var url='http://d.qiang.yixun.com/orderconfirm/getuserrecvaddress';
 	$.getScript(url,function(){
 		if(_addressInfo.errCode==0){
-			if($.isFunction(callback)){
-				callback(_addressInfo.data.list);
+			if($.isFunction(okFun)){
+				okFun(_addressInfo.data.list);
 			}
 		}
 		else{
-			var options = {"okText" : "确定", "contents" : "地址信息拉取失败!"};
-			cola.msgbox.show(null, null, options, 1); 
+			if(typeof failFun == 'function'){
+				failFun();
+			}
+			else{
+				var options = {"okText" : "确定", "contents" : "地址信息拉取失败!"};
+				cola.msgbox.show(null, null, options, 1);
+			} 
 		}
 	});
 };
