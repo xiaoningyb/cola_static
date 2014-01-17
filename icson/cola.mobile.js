@@ -209,7 +209,7 @@ cola.initSk=function(){
             html.push('<span class="ms_goods1_kc_show"><span style="width:'+(data.stock*100/data.stockAll)+'%"></span></span></div>')
             html.push('<div class="ms_goods1_opt">');
             if(timeFlag>0){
-        	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">3点开抢</a>');
+        	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">下午3点开抢</a>');
             }
             else {
         	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">立即秒杀</a>');
@@ -219,7 +219,7 @@ cola.initSk=function(){
 	    var self=this;
 	    $('#'+skId).click(function(){
 		if(timeFlag>0){
-			var options = {"okText" : "确定", "contents" : "请耐心等待，秒杀将于今日15:00准时开始哦!"};
+			var options = {"okText" : "确定", "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!"};
 			cola.msgbox.show(null, null, options, 1); 
 		    return false
 		}
@@ -479,8 +479,31 @@ cola.skSubscribe=function(){
 				cola.msgbox.show(null, null, options, 1); 
 			}
 			else if(rp.errno==20002){
-				var options = {"okText" : "确定", "contents" : '可乐币不足'};
-				cola.msgbox.show(null, null, options, 1); 
+				var options={
+					'okText':'确定使用',
+					'closeText':'暂不使用',
+					'contents':' <div class="tip_sec tip_tit">兑换预约秒杀资格</div><div class="cjj_iptwrap"><input id="pincode" class="cjj_ipt" type="text" placeholder="请输入13位瓶盖码"/></div><div id="error_text"></div>'
+				};
+				cola.msgbox.show(function(){
+					var pincode=$.trim($('#pincode').val());
+					if(pincode == "") return true;
+					if(cola.checkPincode(pincode)){
+						cola.storePincode(pincode,function(rp){
+							if(rp.errno == 0){
+								cola.msgbox.close();
+								cola.skSubscribe();
+							}else{
+								$('#error_text').html('<span style="color:red">该瓶盖码无效或已被使用过或已达到最大连续出错次数上限</span>');
+								$('#pincode').focus();
+							}	
+						});
+					}
+					else{
+						$('#error_text').html('<span style="color:red">瓶盖码输入错误</span>');
+						$('#pincode').focus();
+					}
+				},null,options);
+				self.resetBar();	
 			}
 			else{
 				var options = {"okText" : "确定", "contents" : '系统错误:'+rp.errno};
@@ -683,7 +706,7 @@ cola.checkPincode=function(pincode){
 };
 
 cola.goback=function(url){
-	var url=url||document.referrer
+	var url=url||document.referrer;
 	window.location=url;
 };
 
