@@ -239,13 +239,17 @@ cola.initSk=function(){
 	};	
 
 	this._doSk=function(prdId,url){
-		cola.checkSubscribe(function(status){
-			if(status!=1){
-				var options = {"okText" : "确定", "contents" : "您还没有预约秒杀资格!"};
-				cola.msgbox.show(null, null, options, 1); 
-				return false;
+		cola.checkSubscribe(function(data){
+			if(data.errno == 0){
+				if(data.data!=1){
+					var options = {"okText" : "确定", "contents" : "您还没有预约秒杀资格!"};
+					cola.msgbox.show(null, null, options, 1); 
+					return false;
+				}
+				window.location=url;
+			}else{
+			
 			}
-			window.location=url;
 		});
 	};
 
