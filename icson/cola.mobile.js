@@ -847,3 +847,12 @@ cola.initLoginAndBindDefault = function(){
 	window.location = url;
 }
 
+cola.checkLoginAndBind(){
+	if(!cola.isBind()){
+		var options = {"okText" : "去绑定", "closeText" : "取消", "contents" : "为保证帐号安全及礼品顺利发放，需要先绑定QQ账号，绑定成功后，您将不能再修改QQ号。"};
+		cola.msgbox.show(function(){window.location = cola.getToBindUrlDefault();}, null, options, 1); 
+		return false;
+	}
+	return true;
+}
+
