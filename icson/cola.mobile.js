@@ -209,30 +209,34 @@ cola.initSk=function(){
             html.push('<span class="ms_goods1_kc_show"><span style="width:'+(data.stock*100/data.stockAll)+'%"></span></span></div>')
             html.push('<div class="ms_goods1_opt">');
             if(timeFlag>0){
-        	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">下午3点开抢</a>');
+				html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">下午3点开抢</a>');
             }
             else {
-        	html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">立即秒杀</a>');
+				if(data.stock < 1){
+					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:;">立即秒杀</a>');
+				}else{
+					html.push('<a class="btn btn_em1" id="'+skId+'" href="javascript:;">立即秒杀</a>');
+				}
             }
             html.push('</div></div>');
             $('.ms_goods1').eq(idx).html(html.join(''));
 	    var self=this;
 	    $('#'+skId).click(function(){
-		if(timeFlag>0){
-			var options = {"okText" : "确定", "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!"};
-			cola.msgbox.show(null, null, options, 1); 
-		    return false
-		}
-		var url='seckillorder?prdId='+data.prdId;
-		self._doSk(data.prdId,url);
-		return false;
+			if(timeFlag>0){
+				var options = {"okText" : "确定", "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!"};
+				cola.msgbox.show(null, null, options, 1); 
+				return false
+			}
+			var url='seckillorder?prdId='+data.prdId;
+			self._doSk(data.prdId,url);
+			return false;
 	    });
 	};	
 
 	this._doSk=function(prdId,url){
 		if(cola.isLogin()){
 			cola.checkSubscribe(function(status){
-				if(status==0){
+				if(status!=1){
 					var options = {"okText" : "确定", "contents" : "您还没有预约秒杀资格!"};
 					cola.msgbox.show(null, null, options, 1); 
 					return false;
