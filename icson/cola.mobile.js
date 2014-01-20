@@ -484,12 +484,14 @@ cola.skSubscribe=function(){
 			else if(rp.errno==20001){
 				var options = {"okText" : "确定", "contents" : '你已经拥有本期秒杀资格'};
 				cola.msgbox.show(null, null, options, 1); 
+				$('#sk_no').hide();
+				$('#sk_join').show();
 			}
 			else if(rp.errno==20002){
 				var options={
 					'okText':'确定使用',
 					'closeText':'暂不使用',
-					'contents':' <div class="tip_sec tip_tit">兑换预约秒杀资格</div><div class="cjj_iptwrap"><input id="pincode" class="cjj_ipt" type="text" placeholder="请输入13位瓶盖码"/></div><div id="error_text"></div>'
+					'contents':' <div class="tip_sec tip_tit">兑换秒杀资格</div><div class="cjj_iptwrap"><input id="pincode" class="cjj_ipt" type="text" placeholder="请输入13位瓶盖码"/></div><div id="error_text"></div>'
 				};
 				cola.msgbox.show(function(){
 					var pincode=$.trim($('#pincode').val());
