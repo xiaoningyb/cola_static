@@ -209,13 +209,13 @@ cola.initSk=function(){
             html.push('<span class="ms_goods1_kc_show"><span style="width:'+(data.stock*100/data.stockAll)+'%"></span></span></div>')
             html.push('<div class="ms_goods1_opt">');
             if(timeFlag>0){
-				html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:;">下午3点开抢</a>');
+				html.push('<a class="ms_btn_qiang" id="'+skId+'" href="javascript:void(0);">下午3点开抢</a>');
             }
             else {
 				if(data.stock < 1){
-					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:;">抢光了</a>');
+					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:void(0);" stock_flag="0">抢光了</a>');
 				}else{
-					html.push('<a class="btn btn_em1" id="'+skId+'" href="javascript:;">立即秒杀</a>');
+					html.push('<a class="btn btn_em1" id="'+skId+'" href="javascript:void(0);" stock_flag="1">立即秒杀</a>');
 				}
             }
             html.push('</div></div>');
@@ -225,7 +225,12 @@ cola.initSk=function(){
 			if(timeFlag>0){
 				var options = {"okText" : "确定", "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!"};
 				cola.msgbox.show(null, null, options, 1); 
-				return false
+				return false;
+			}
+			if($(this).attr("stock_flag") == "0"){
+				var options = {"okText" : "确定", "contents" : "抢光了哦!"};
+				cola.msgbox.show(null, null, options, 1); 
+				return false;
 			}
 			var url='seckillorder?prdId='+data.prdId;
 			self._doSk(data.prdId,url);
