@@ -213,7 +213,7 @@ cola.initSk=function(){
             }
             else {
 				if(data.stock < 1){
-					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:;">立即秒杀</a>');
+					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:;">抢光了</a>');
 				}else{
 					html.push('<a class="btn btn_em1" id="'+skId+'" href="javascript:;">立即秒杀</a>');
 				}
@@ -234,16 +234,14 @@ cola.initSk=function(){
 	};	
 
 	this._doSk=function(prdId,url){
-		if(cola.isLogin()){
-			cola.checkSubscribe(function(status){
-				if(status!=1){
-					var options = {"okText" : "确定", "contents" : "您还没有预约秒杀资格!"};
-					cola.msgbox.show(null, null, options, 1); 
-					return false;
-				}
-				window.location=url;
-			});
-		}
+		cola.checkSubscribe(function(status){
+			if(status!=1){
+				var options = {"okText" : "确定", "contents" : "您还没有预约秒杀资格!"};
+				cola.msgbox.show(null, null, options, 1); 
+				return false;
+			}
+			window.location=url;
+		});
 	};
 
 	this.getSkList();
