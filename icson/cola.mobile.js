@@ -530,14 +530,8 @@ cola.skSubscribe=function(){
 cola.checkSubscribe=function(callback){
 	var url=domain+'/SeckillCheck?callback=?';
 	$.getJSON(url,function(rp){
-		if(rp.errno==0){
-			if($.isFunction(callback)){
-				callback(rp.data);
-			}
-		}
-		else{
-			var options = {"okText" : "确定", "contents" : cola.code2error(rp.errno)};
-			cola.msgbox.show(null, null, options, 1); 
+		if(typeof callback == 'function'){
+			callback(rp);
 		}
 	});	
 };
