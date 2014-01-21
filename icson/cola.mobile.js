@@ -277,7 +277,7 @@ cola.initSuperBuy=function(callback){
 		}
 
     };
-    $.ajax('http://event.yixun.com/event/17091_info.js',settings);
+    $.ajax('http://event.yixun.com/event/'+actId+'_info.js',settings);
 };
 
 /**
