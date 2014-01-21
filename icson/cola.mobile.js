@@ -191,7 +191,7 @@ cola.initSk=function(){
         this._showProduct=function(idx,data){
 	    var skId='sk_'+idx+'_bt';
 	    var html=[];
-            html.push('<a href="#" class="ms_goods1_img">');
+            html.push('<a href="javascript:void(0);" class="ms_goods1_img">');
             html.push('<img src="'+data.pic+'" alt="">');
             if(idx==0) {
         	html.push('<span class="ms_goods1_tips1">0元秒</span></a>');
@@ -201,7 +201,7 @@ cola.initSk=function(){
             }
             
 	    	html.push('<div class="ms_goods1_info">');
-            html.push('<a class="ms_goods1_name" href="#">'+data.title+'</a>');
+            html.push('<a class="ms_goods1_name" href="javascript:void(0);">'+data.title+'</a>');
             html.push('<div class="ms_goods1_price"><span class="price">&yen;'+parseFloat(data.price)
         	      +'</span> <del class="old_price">&yen;'+parseFloat(data.yixunprice)+'</del></div>');
             html.push('<div class="ms_goods1_kc">');
@@ -213,21 +213,21 @@ cola.initSk=function(){
             }
             else {
 				if(data.stock < 1){
-					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:void(0);" stock_flag="0">抢光了</a>');
+					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:void(0);">抢光了</a>');
 				}else{
-					html.push('<a class="btn btn_em1" id="'+skId+'" href="javascript:void(0);" stock_flag="1">立即秒杀</a>');
+					html.push('<a class="btn btn_em1" id="'+skId+'" href="javascript:void(0);">立即秒杀</a>');
 				}
             }
             html.push('</div></div>');
             $('.ms_goods1').eq(idx).html(html.join(''));
 	    var self=this;
-	    $('#'+skId).click(function(){
+	    $('.ms_goods1').eq(idx).find('a').click(function(){
 			if(timeFlag>0){
 				var options = {"okText" : "确定", "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!"};
 				cola.msgbox.show(null, null, options, 1); 
 				return false;
 			}
-			if($(this).attr("stock_flag") == "0"){
+			if(data.stock < 1){
 				var options = {"okText" : "确定", "contents" : "抢光了哦!"};
 				cola.msgbox.show(null, null, options, 1); 
 				return false;
