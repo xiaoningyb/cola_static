@@ -9,7 +9,7 @@ var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
 var lotteryId=72;
-var actId=17091;
+var actId=5346;
 var codeMapping={
 		'101':'请求失败',
 		'102':'OAuth错误',
