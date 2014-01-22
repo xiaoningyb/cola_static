@@ -198,7 +198,7 @@ cola.initSk=function(){
         	html.push('<span class="ms_goods1_tips1">0元秒</span></a>');
             }
             else {
-        	html.push('<span class="ms_goods1_tips2">3折秒</span></a>');
+        	//html.push('<span class="ms_goods1_tips2">3折秒</span></a>');
             }
             
 	    	html.push('<div class="ms_goods1_info">');
@@ -224,13 +224,23 @@ cola.initSk=function(){
 	    var self=this;
 	    $('.ms_goods1').eq(idx).find('a').click(function(){
 			if(timeFlag>0){
-				var options = {"okText" : "确定", "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!"};
-				cola.msgbox.show(null, null, options, 1); 
+				var options;
+				if($("#showLayer").is(":visible")){
+					options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!您可以先预约秒杀资格"};
+					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options, 1); 				
+				}else{
+					options = {"okText" : "关闭", "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!"};
+					cola.msgbox.show(null, null, options, 1); 
+				}
+				
 				return false;
 			}
 			if(data.stock < 1){
 				var options = {"okText" : "确定", "contents" : "抢光了哦!"};
 				cola.msgbox.show(null, null, options, 1); 
+				return false;
+			}
+			if(!cola.checkLoginAndBind()){
 				return false;
 			}
 			var url='seckillorder?prdId='+data.prdId;
@@ -243,8 +253,8 @@ cola.initSk=function(){
 		cola.checkSubscribe(function(data){
 			if(data.errno == 0){
 				if(data.data!=1){
-					var options = {"okText" : "确定", "contents" : "您还没有预约秒杀资格!"};
-					cola.msgbox.show(null, null, options, 1); 
+					var options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "您还没有预约秒杀资格!"};
+					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options, 1); 
 					return false;
 				}
 				window.location=url;
@@ -345,7 +355,7 @@ cola.getDiscountList=function(callback){
 		dataType: 'script',
 		scriptCharset: 'gbk',
 		success:function(){
-			if(typeof callback == 'function'){
+			if(typeof callback == 'function' && GoodsInfo_51buy){
 				callback(GoodsInfo_51buy.pblock[0].list);
 			}
 		}
@@ -496,7 +506,7 @@ cola.skSubscribe=function(){
 				var options={
 					'okText':'确定使用',
 					'closeText':'暂不使用',
-					'contents':' <div class="tip_sec tip_tit">兑换秒杀资格</div><div class="cjj_iptwrap"><input id="pincode" class="cjj_ipt" type="text" placeholder="请输入13位瓶盖码"/></div><div id="error_text"></div>'
+					'contents':' <div class="tip_sec tip_tit">预约秒杀资格</div><div class="cjj_iptwrap"><input id="pincode" class="cjj_ipt" type="text" maxlength="13" placeholder="请输入13位瓶盖码"/></div><div id="error_text"></div>'
 				};
 				cola.msgbox.show(function(){
 					var pincode=$.trim($('#pincode').val());
@@ -507,7 +517,18 @@ cola.skSubscribe=function(){
 								cola.msgbox.close();
 								cola.skSubscribe();
 							}else{
-								$('#error_text').html('<span style="color:red">该瓶盖码无效或已被使用过或已达到最大连续出错次数上限</span>');
+								var errmsg = '连续输入无效瓶盖码次数已达上限（5次），30分钟后才可继续输入。';
+								switch(rp.errno){
+									case 101:
+									case 102:
+									case 108://pincode无效
+										errmsg = '该瓶盖码无效，若连续输入无效瓶盖码超过5次，您将被屏蔽30分钟。';
+										break;
+									case 110://pincode已使用
+										errmsg = '该瓶盖码已被使用过';
+										break;
+								}
+								$('#error_text').html('<span style="color:red">' + errmsg + '</span>');
 								$('#pincode').focus();
 							}	
 						});
