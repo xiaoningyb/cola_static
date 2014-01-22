@@ -39,7 +39,7 @@ cola.initTimer=function(callback){
 		var self=this;
 		cola.getLeaveTime(function(rp){
 			if(rp.data<0){
-				timeFlag=-1;
+				//TODO: for test timeFlag=-1;
 			}
 			var timeLeave=Math.abs(rp.data);
 			var intervalID=setInterval(function(){
