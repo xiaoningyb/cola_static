@@ -194,11 +194,12 @@ cola.initSk=function(){
             html.push('<a href="javascript:void(0);" class="ms_goods1_img">');
             html.push('<img src="'+data.pic+'" alt="">');
             if(idx==0) {
-        	html.push('<span class="ms_goods1_tips1">0元秒</span></a>');
+        	html.push('<span class="ms_goods1_tips1">0元秒</span>');
             }
             else {
-        	//html.push('<span class="ms_goods1_tips2">3折秒</span></a>');
+        	//html.push('<span class="ms_goods1_tips2">3折秒</span>');
             }
+			html.push('</a>');
             
 	    	html.push('<div class="ms_goods1_info">');
             html.push('<a class="ms_goods1_name" href="javascript:void(0);">'+data.title+'</a>');
@@ -225,10 +226,10 @@ cola.initSk=function(){
 			if(timeFlag>0){
 				var options;
 				if($("#showLayer").is(":visible")){
-					options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!您可以先预约秒杀资格"};
+					options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "请耐心等待，秒杀将于今日下午3点开始哦!您可以先预约秒杀资格"};
 					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options, 1); 				
 				}else{
-					options = {"okText" : "关闭", "contents" : "请耐心等待，秒杀将于今日下午3点准时开始哦!"};
+					options = {"okText" : "关闭", "contents" : "请耐心等待，秒杀将于今日下午3点开始哦!"};
 					cola.msgbox.show(null, null, options, 1); 
 				}
 				
