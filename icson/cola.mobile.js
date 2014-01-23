@@ -235,11 +235,11 @@ cola.initSk=function(){
 				
 				return false;
 			}
-			//if(data.stock < 1){
-			//	var options = {"okText" : "确定", "contents" : "抢光了哦!"};
-			//	cola.msgbox.show(null, null, options, 1); 
-			//	return false;
-			//}
+			if(data.stock < 1){
+				var options = {"okText" : "确定", "contents" : "抢光了哦!"};
+				cola.msgbox.show(null, null, options, 1); 
+				return false;
+			}
 			if(!cola.checkLoginAndBind()){
 				return false;
 			}
@@ -870,7 +870,7 @@ cola.initLoginAndBindDefault = function(){
 	var redirect = window.location.href;
 	var url = cola.getMyAccountUrl(redirect);
 	window.location = url;
-}
+};
 
 cola.checkLoginAndBind = function(){
 	if(!cola.isBind()){
@@ -879,5 +879,76 @@ cola.checkLoginAndBind = function(){
 		return false;
 	}
 	return true;
-}
+};
 
+cola.serviceAreas={
+	areaList: {
+	    //省份ID:[省份名称,分站ID,默认三级地区ID]
+		'2621' : ['上海', '1','2626'],
+		'3225' : ['浙江', '1','3227'],
+		'1591' : ['江苏', '1','1593'],
+		'1' : ['安徽', '1','9'],
+		'2130' : ['宁夏', '5001','2132'],
+		'2160' : ['青海', '5001','2162'],
+		'403' : ['广东', '1001','421'],
+		'201' : ['福建', '1001','203'],
+		'1718' : ['江西', '3001','1720'],
+		'789' : ['海南', '1001','791'],
+		'3077' : ['云南', '4001','3079'],
+		'556' : ['广西', '1001','601'],
+		'2878' : ['新疆', '5001','2880'],
+		'2996' : ['西藏', '4001','2998'],
+		'131' : ['北京', '2001','3803'],
+		'2858' : ['天津', '2001','2860'],
+		'814' : ['河北', '2001','816'],
+		'1144' : ['河南', '3001','1146'],
+		'2329' : ['山东', '2001','2331'],
+		'2490' : ['山西', '2001','2492'],
+		'1900' : ['辽宁', '2001','1902'],
+		'1830' : ['吉林', '2001','1832'],
+		'999' : ['黑龙江', '2001','1001'],
+		'2212' : ['陕西', '5001','2226'],
+		'299' : ['甘肃', '5001','302'],
+		'2016' : ['内蒙古', '2001','2018'],
+		'1454' : ['湖南', '3001','1456'],
+		'693' : ['贵州', '4001','695'],
+		'1323' : ['湖北', '3001','4046'],
+		'158' : ['重庆', '4001','200'],
+		'2652' : ['四川', '4001','2654']
+	},
+	areasGroupMap:{
+		'1':'上海仓服务',
+		'1001':'深圳仓服务',
+		'2001':'北京仓服务',
+		'3001':'武汉仓服务',
+		'4001':'重庆仓服务',
+		'5001':'西安仓服务'
+	},
+	getListByGroup:function(){
+		var result={};
+		for(var i in cola.serviceAreas.areaList){
+			var row=cola.serviceAreas.areaList[i];
+			var wsid=row[1];
+			if(typeof result[wsid] == 'undefined'){
+				result[wsid]={'gname':cola.serviceAreas.areasGroupMap[wsid],'list':[]};
+			}
+			row.push(i);
+			result[wsid].list.push(row);
+		}
+		return result;
+	},
+	getProName:function(prid){
+		var proname='上海';
+		var m=prid.match(/^\d+_(\d+)$/);
+		if(!!m){
+			for(var i in cola.serviceAreas.areaList){
+				console.log(i+'===='+m[1]);
+				if(i==m[1]){
+					proname = cola.serviceAreas.areaList[i][0];
+					break;
+				}
+			}
+		}
+		return proname;
+	}
+};
