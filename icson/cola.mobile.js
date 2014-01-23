@@ -235,11 +235,11 @@ cola.initSk=function(){
 				
 				return false;
 			}
-			if(data.stock < 1){
-				var options = {"okText" : "确定", "contents" : "抢光了哦!"};
-				cola.msgbox.show(null, null, options, 1); 
-				return false;
-			}
+			//if(data.stock < 1){
+			//	var options = {"okText" : "确定", "contents" : "抢光了哦!"};
+			//	cola.msgbox.show(null, null, options, 1); 
+			//	return false;
+			//}
 			if(!cola.checkLoginAndBind()){
 				return false;
 			}
