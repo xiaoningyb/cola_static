@@ -215,7 +215,7 @@ cola.initSk=function(){
             }
             else {
 				if(data.stock < 1){
-					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:void(0);">抢光了</a>');
+					html.push('<a class="btn btn_disabled" id="'+skId+'" href="javascript:void(0);">已抢光</a>');
 				}else{
 					html.push('<a class="btn btn_em1" id="'+skId+'" href="javascript:void(0);">立即秒杀</a>');
 				}
@@ -227,17 +227,17 @@ cola.initSk=function(){
 			if(timeFlag>0){
 				var options;
 				if($("#showLayer").is(":visible")){
-					options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "请耐心等待，秒杀将于今日下午3点开始哦!您可以先预约秒杀资格"};
+					options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "秒杀将于今天下午3点准时开始哦！您可以先预约秒杀资格", 'title' : '提示'};
 					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options, 1); 				
 				}else{
-					options = {"okText" : "关闭", "contents" : "请耐心等待，秒杀将于今日下午3点开始哦!"};
+					options = {"okText" : "关闭", "contents" : "秒杀将于今天下午3点准时开始哦！", 'title' : '提示'};
 					cola.msgbox.show(null, null, options, 1); 
 				}
 				
 				return false;
 			}
 			if(data.stock < 1){
-				var options = {"okText" : "确定", "contents" : "抢光了哦!"};
+				var options = {"okText" : "确定", "contents" : "晚了一步哦！您可以试试其他商品！", 'title' : '抢光了！'};
 				cola.msgbox.show(null, null, options, 1); 
 				return false;
 			}
@@ -254,7 +254,7 @@ cola.initSk=function(){
 		cola.checkSubscribe(function(data){
 			if(data.errno == 0){
 				if(data.data!=1){
-					var options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "您还没有预约秒杀资格!"};
+					var options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "您还没有预约秒杀资格!", 'title' : '秒杀失败'};
 					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options, 1); 
 					return false;
 				}
@@ -494,11 +494,11 @@ cola.skSubscribe=function(){
 				$('#sk_join').show();
 			}
 			else if(rp.errno==10002){
-				var options = {"okText" : "确定", "contents" : '无用户信息，请登陆'};
+				var options = {"okText" : "确定", "contents" : '无用户信息，请登陆', 'title' : '错误'};
 				cola.msgbox.show(null, null, options, 1); 
 			}
 			else if(rp.errno==20001){
-				var options = {"okText" : "确定", "contents" : '你已经拥有本期秒杀资格'};
+				var options = {"okText" : "确定", "contents" : '你已经拥有本期秒杀资格', 'title' : '提示'};
 				cola.msgbox.show(null, null, options, 1); 
 				$('#sk_no').hide();
 				$('#sk_join').show();
@@ -539,10 +539,9 @@ cola.skSubscribe=function(){
 						$('#pincode').focus();
 					}
 				},null,options);
-				self.resetBar();	
 			}
 			else{
-				var options = {"okText" : "确定", "contents" : '系统错误:'+rp.errno};
+				var options = {"okText" : "确定", "contents" : '服务器繁忙，请稍后再试', 'title' : '秒杀失败'};
 				cola.msgbox.show(null, null, options, 1); 
 			}
 		});
@@ -740,14 +739,6 @@ cola.goback=function(url){
 	window.location=url;
 };
 
-cola.getCookie=function(objName){//获取指定名称的cookie的值
-    var arrStr = document.cookie.split("; ");
-    for(var i = 0;i < arrStr.length;i ++){
-        var temp = arrStr[i].split("=");
-        if(temp[0] == objName) return unescape(temp[1]);
-    }
-};       
- 
 cola.isBind=function(){
     var isBind = cola.getCookie("colabind");
     if(isBind == 1) return true;
@@ -762,7 +753,7 @@ cola.getMyAccountUrl=function(url)
 };
         
 cola.getToBindUrl=function(url){
-    return "https://ssl.ui.ptlogin2.yixun.com/cgi-bin/login?appid=700028403&daid=174&style=8&hln_custompage=0&pt_logo_14=1&pt_open_appid=1&hln_css=http%3A%2F%2Fstatic.gtimg.com/icson/img/app/weixin/logo.png&s_url=http://ecclogin.yixun.com/login/mobileqqlogin?surl=" + encodeURI(domain+"/dobind?redirect=" + encodeURI(url));
+    return "https://ssl.ui.ptlogin2.yixun.com/cgi-bin/login?appid=700028403&daid=174&style=8&hln_custompage=0&pt_logo_14=1&pt_open_appid=1&hln_css=http%3A%2F%2Fstatic.gtimg.com/icson/img/app/weixin/logo.png&s_url=http://ecclogin.yixun.com/login/mobileqqlogin?surl=" + encodeURI(domain+"/confirmbind?redirect=" + encodeURI(url));
 };
 
 /**
@@ -785,8 +776,13 @@ cola.msgbox={
 	close:function(){
 		cola.msgbox._remove();
 	},
-	showinfo:function(okFun, closeFun, okText, contents){
-		var options = {'okText' : okText, 'contents' : contents};
+	showinfo:function(okFun, closeFun, okText, contents, title){
+		var options;
+		if(title == undefined || title == ''){
+			options = {'okText' : okText, 'contents' : contents};
+		}else{
+			options = {'okText' : okText, 'contents' : contents, 'title' : title};
+		}
 		cola.msgbox.show(okFun, closeFun, options, 1);
 	},
 	_msgbox:null,
@@ -871,14 +867,85 @@ cola.initLoginAndBindDefault = function(){
 	var redirect = window.location.href;
 	var url = cola.getMyAccountUrl(redirect);
 	window.location = url;
-}
+};
 
 cola.checkLoginAndBind = function(){
 	if(!cola.isBind()){
-		var options = {"okText" : "去绑定", "closeText" : "取消", "contents" : "为保证帐号安全及礼品顺利发放，需要先绑定QQ账号，绑定成功后，您将不能再修改QQ号。"};
+		var options = {"okText" : "去绑定", "closeText" : "取消", "contents" : "为保证帐号安全及礼品顺利发放，需要先绑定QQ账号，绑定成功后，您将不能再修改QQ号。", 'title' : '提示'};
 		cola.msgbox.show(function(){window.location = cola.getToBindUrlDefault();}, null, options, 1); 
 		return false;
 	}
 	return true;
-}
+};
 
+cola.serviceAreas={
+	areaList: {
+	    //省份ID:[省份名称,分站ID,默认三级地区ID]
+		'2621' : ['上海', '1','2626'],
+		'3225' : ['浙江', '1','3227'],
+		'1591' : ['江苏', '1','1593'],
+		'1' : ['安徽', '1','9'],
+		'2130' : ['宁夏', '5001','2132'],
+		'2160' : ['青海', '5001','2162'],
+		'403' : ['广东', '1001','421'],
+		'201' : ['福建', '1001','203'],
+		'1718' : ['江西', '3001','1720'],
+		'789' : ['海南', '1001','791'],
+		'3077' : ['云南', '4001','3079'],
+		'556' : ['广西', '1001','601'],
+		'2878' : ['新疆', '5001','2880'],
+		'2996' : ['西藏', '4001','2998'],
+		'131' : ['北京', '2001','3803'],
+		'2858' : ['天津', '2001','2860'],
+		'814' : ['河北', '2001','816'],
+		'1144' : ['河南', '3001','1146'],
+		'2329' : ['山东', '2001','2331'],
+		'2490' : ['山西', '2001','2492'],
+		'1900' : ['辽宁', '2001','1902'],
+		'1830' : ['吉林', '2001','1832'],
+		'999' : ['黑龙江', '2001','1001'],
+		'2212' : ['陕西', '5001','2226'],
+		'299' : ['甘肃', '5001','302'],
+		'2016' : ['内蒙古', '2001','2018'],
+		'1454' : ['湖南', '3001','1456'],
+		'693' : ['贵州', '4001','695'],
+		'1323' : ['湖北', '3001','4046'],
+		'158' : ['重庆', '4001','200'],
+		'2652' : ['四川', '4001','2654']
+	},
+	areasGroupMap:{
+		'1':'上海仓服务',
+		'1001':'深圳仓服务',
+		'2001':'北京仓服务',
+		'3001':'武汉仓服务',
+		'4001':'重庆仓服务',
+		'5001':'西安仓服务'
+	},
+	getListByGroup:function(){
+		var result={};
+		for(var i in cola.serviceAreas.areaList){
+			var row=cola.serviceAreas.areaList[i];
+			var wsid=row[1];
+			if(typeof result[wsid] == 'undefined'){
+				result[wsid]={'gname':cola.serviceAreas.areasGroupMap[wsid],'list':[]};
+			}
+			row.push(i);
+			result[wsid].list.push(row);
+		}
+		return result;
+	},
+	getProName:function(prid){
+		var proname='上海';
+		var m=prid.match(/^\d+_(\d+)$/);
+		if(!!m){
+			for(var i in cola.serviceAreas.areaList){
+				console.log(i+'===='+m[1]);
+				if(i==m[1]){
+					proname = cola.serviceAreas.areaList[i][0];
+					break;
+				}
+			}
+		}
+		return proname;
+	}
+};
