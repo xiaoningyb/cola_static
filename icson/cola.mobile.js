@@ -227,17 +227,17 @@ cola.initSk=function(){
 				var options;
 				if($("#showLayer").is(":visible")){
 					options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "秒杀将于今天下午3点准时开始哦！您可以先预约秒杀资格", 'title' : '提示'};
-					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options, 1); 				
+					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options,3); 				
 				}else{
 					options = {"okText" : "关闭", "contents" : "秒杀将于今天下午3点准时开始哦！", 'title' : '提示'};
-					cola.msgbox.show(null, null, options, 1); 
+					cola.msgbox.show(null, null, options, 3); 
 				}
 				
 				return false;
 			}
 			if(data.stock < 1){
 				var options = {"okText" : "确定", "contents" : "晚了一步哦！您可以试试其他商品！", 'title' : '抢光了！'};
-				cola.msgbox.show(null, null, options, 1); 
+				cola.msgbox.show(null, null, options, 3); 
 				return false;
 			}
 			if(!cola.checkLoginAndBind()){
@@ -254,7 +254,7 @@ cola.initSk=function(){
 			if(data.errno == 0){
 				if(data.data!=1){
 					var options = {"okText" : "预约", 'closeText' : '关闭', "contents" : "您还没有预约秒杀资格!", 'title' : '秒杀失败'};
-					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options, 1); 
+					cola.msgbox.show(function(){cola.msgbox.close();$("#showLayer").click();}, null, options, 3); 
 					return false;
 				}
 				window.location=url;
@@ -494,11 +494,11 @@ cola.skSubscribe=function(){
 			}
 			else if(rp.errno==10002){
 				var options = {"okText" : "确定", "contents" : '无用户信息，请登陆', 'title' : '错误'};
-				cola.msgbox.show(null, null, options, 1); 
+				cola.msgbox.show(null, null, options, 3); 
 			}
 			else if(rp.errno==20001){
 				var options = {"okText" : "确定", "contents" : '你已经拥有本期秒杀资格', 'title' : '提示'};
-				cola.msgbox.show(null, null, options, 1); 
+				cola.msgbox.show(null, null, options, 3); 
 				$('#sk_no').hide();
 				$('#sk_join').show();
 			}
@@ -541,7 +541,7 @@ cola.skSubscribe=function(){
 			}
 			else{
 				var options = {"okText" : "确定", "contents" : '服务器繁忙，请稍后再试', 'title' : '秒杀失败'};
-				cola.msgbox.show(null, null, options, 1); 
+				cola.msgbox.show(null, null, options, 3); 
 			}
 		});
 	}
@@ -782,7 +782,7 @@ cola.msgbox={
 		}else{
 			options = {'okText' : okText, 'contents' : contents, 'title' : title};
 		}
-		cola.msgbox.show(okFun, closeFun, options, 1);
+		cola.msgbox.show(okFun, closeFun, options, 3);
 	},
 	_msgbox:null,
 	_render:function(options,type){
@@ -871,7 +871,7 @@ cola.initLoginAndBindDefault = function(){
 cola.checkLoginAndBind = function(){
 	if(!cola.isBind()){
 		var options = {"okText" : "去绑定", "closeText" : "取消", "contents" : "为保证帐号安全及礼品顺利发放，需要先绑定QQ账号，绑定成功后，您将不能再修改QQ号。", 'title' : '提示'};
-		cola.msgbox.show(function(){window.location = cola.getToBindUrlDefault();}, null, options, 1); 
+		cola.msgbox.show(function(){window.location = cola.getToBindUrlDefault();}, null, options, 3); 
 		return false;
 	}
 	return true;
