@@ -16,6 +16,7 @@ cola.codeMapping={
 		'105':'OAuth登录认证失败',
 		'110':'该瓶盖码已被使用过',
 		'201':'未知错误',
+		'301':'未登录，请登录',
 		'10001':'CMEM调用错误',
 		'10002':'该用户不存在',
 		'20001':'您已经预约过啦',
@@ -31,6 +32,11 @@ cola.codeMapping={
 };
 cola.code2error=function(errorCode){
 	return typeof cola.codeMapping[errorCode]=='undefined'?'未知错误:'+errorCode:cola.codeMapping[errorCode];
+};
+cola.getCookie=function(name){
+	var r = new RegExp("(^|;|\\s+)" + name + "=([^;]*)(;|$)");
+	var m = document.cookie.match(r);
+	return (!m ? "": unescape(m[2]));
 };
 cola.getPincodeCount=function(callback){
 	var url=cola.domain+'/colacoinquery?callback=?';
@@ -487,7 +493,13 @@ cola.initLottery=function(){
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-cola.checkSubscribe=function(callback){
+cola.checkSubscribe=function(callback,checkLogin){
+	var checkLogin=typeof checkLogin == 'undefined'?true:false;
+	if(checkLogin){
+		if(!cola.isLogin()){
+			return false;
+		}
+	}
 	var url=cola.domain+'/SeckillCheck?callback=?';
 	$.getJSON(url,function(rp){
 		if(typeof callback == 'function'){
@@ -512,8 +524,21 @@ cola.skSubscribe=function(callback){
 	}
 };
 
-cola.isLogin=function(){
-	return true;
+cola.isLogin=function(isJump){
+	if(typeof isJump == 'undefined'){
+		isJump=true;
+	}
+	var uid=$.trim(cola.getCookie('uid'));
+	var islogin=uid===''?false:true;
+	if(isJump&&!islogin){
+		cola.msgbox.show(function(){cola.goLogin();},null,{'okText':'去登录','closeText':'取消','contents':'您还没有登录，请登录后进行下一步操作！'}, 1);
+	}
+	return islogin;
+};
+
+cola.goLogin=function(){
+	var url='https://base.yixun.com/login.html?url='+encodeURIComponent(window.location);
+	window.location=url;
 };
 
 /**
