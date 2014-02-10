@@ -203,6 +203,9 @@ var colaGlobal=function(){
 	this.storePincode=function(){
 		var self=this;
 		$('#store_pincode').click(function(){
+			if(!cola.isLogin()){
+				return false;
+			}
 			var html=[];
 			html.push('<div class="pop_cj">');
 			html.push('<p class="pop_cj_int"><input id="pincode" type="text" maxlength=13 placeholder="请在此输入可乐瓶盖内的13位瓶盖码" class="c_tx3"></p>');
@@ -298,9 +301,21 @@ var colaGlobal=function(){
 		});
 	};
 
+	this.smartNav=function(){
+		$(window).scroll(function(event) {
+			if($(this).scrollTop()>=160){
+				$('#pg_header').addClass('act_nav_fixed');
+			}
+			else{
+				$('#pg_header').removeClass('act_nav_fixed');
+			}
+		});
+	};
+
 	this.run=function(){
 		$('#pg_header').html(this.showHeader());
 		$('#pg_footer').html(this.showFooter());
+		this.smartNav();
 		this.getPincodeCount();
 		this.storePincode();
 		this.showWeibo();

@@ -547,23 +547,38 @@ cola.goLogin=function(){
  */
 cola.initSuperBuy=function(callback){
 	var self=this;
-	var url='';
+	this.getPrdIdx=function(wsid){
+		var mappings={
+			'1':0,
+			'1001':1,
+			'2001':2,
+			'3001':3,
+			'4001':4,
+			'5001':5
+		};
+		return typeof mappings[wsid]=='undefined'?mappings[1]:mappings[wsid];
+	};
+	var wsid=cola.getCookie('wsid');
+	if($.trim(wsid)==''){
+		wsid='1';
+	}
 	var settings={
+		url:'http://event.yixun.com/event/'+cola.eventId+'_info.js',
         dataType:'script',
         crossDomain:true,
         scriptCharset:'gbk',
         success:function(){
-        	console.log(GoodsInfo_51buy.pblock[0].list);
 			if(typeof callback == 'function'){
-				callback(GoodsInfo_51buy.pblock[0].list);
+				var idx=self.getPrdIdx(wsid);
+				callback(GoodsInfo_51buy.pblock[idx].list);
 			}
 			else{
-				console.log(GoodsInfo_51buy.pblock[0].list);
+				console.log(GoodsInfo_51buy.pblock);
 			}
 		}
 
     };
-    $.ajax('http://event.yixun.com/event/'+cola.eventId+'_info.js',settings);
+    $.ajax(settings);
 };
 
 /**
