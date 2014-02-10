@@ -545,7 +545,7 @@ cola.goLogin=function(){
  * 超级抢购初始化
  * @return {[type]} [description]
  */
-cola.initSuperBuy=function(callback){
+cola.initSuperBuy=function(spCallback,skCallback){
 	var self=this;
 	this.getPrdIdx=function(wsid){
 		var mappings={
@@ -568,13 +568,16 @@ cola.initSuperBuy=function(callback){
         crossDomain:true,
         scriptCharset:'gbk',
         success:function(){
-			if(typeof callback == 'function'){
+			//初始化0元秒杀商品
+			cola.initSk(GoodsInfo_51buy.pblock[6].list,skCallback);
+			if(typeof spCallback == 'function'){
 				var idx=self.getPrdIdx(wsid);
-				callback(GoodsInfo_51buy.pblock[idx].list);
+				spCallback(GoodsInfo_51buy.pblock[idx].list);
 			}
 			else{
 				console.log(GoodsInfo_51buy.pblock);
 			}
+
 		}
 
     };
@@ -585,23 +588,14 @@ cola.initSuperBuy=function(callback){
  * 秒杀初始化
  * @return {[type]} [description]
  */
-cola.initSk=function(callback){
+cola.initSk=function(initData,callback){
 	var self=this;
 	this.getSkList=function(callback){
-		var url=domain+'/seckillquery?callback=?&date=20140114';
-		$.getJSON(url,function(rp){
-			if(rp.errno==0){
-				var data=rp.data;
-				for(var i in data){
-					self._getPrdInfo(data[i].idx,data[i].pid,callback);
-				}
-
-			}
-			else{
-				var options = {"okText" : "确定", "contents" : 'data loaded error!'};
-				cola.msgbox.show(null, null, options, 1); 
-			}
-		});
+		// console.log(initData);
+		for(var i in initData){
+			if(i>3) break;
+			self._getPrdInfo(i,initData[i].product_id,callback);
+		}
 	};
 	
 	this._getPrdInfo=function(idx,prdId,callback){
@@ -615,7 +609,7 @@ cola.initSk=function(callback){
 				prdInfo.title=itemInfo.title;
 				prdInfo.subTitle=itemInfo.subTitle;
 				var m=itemInfo.p_char_id.match(/^(\d+)\-(\d+)\-(\d+)$/);
-				prdInfo.pic='http://img1.icson.com/product/pic200/'+m[1]+'/'+m[2]+'/'+itemInfo.p_char_id+'.jpg';
+				prdInfo.pic='http://img1.icson.com/product/mm/'+m[1]+'/'+m[2]+'/'+itemInfo.p_char_id+'.jpg';
 				prdInfo.url=itemInfo.originItemUrl;
 				prdInfo.stock=itemInfo.stock;
 				prdInfo.stockAll=itemInfo.stockAll;
