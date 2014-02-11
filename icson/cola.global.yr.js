@@ -173,58 +173,18 @@ var colaGlobal=function(){
 	//获取用户当前可乐币数量
 	this.getPincodeCount=function(){
 		self.intervalFunction();
-		setInterval(self.intervalFunction,30000);
+		setInterval(self.intervalFunction,60000);
 		
 	};
 
 	this.intervalFunction=function(){
 		cola.getPincodeCount(function(rp){
 			if(rp.errno==0){
-				$('#my_pincode').html(rp.data.colacoin);
+				$('span.ycm_num').text(rp.data.colacoin);
 			}
 			else{
 				console.log('get pincode errno:'+rp.errno);
 			}
-		});
-	};
-
-	//瓶盖码存储
-	this.storePincode=function(){
-		var self=this;
-		$('#store_pincode').click(function(){
-			if(!cola.isLogin()){
-				return false;
-			}
-			var html=[];
-			html.push('<div class="pop_cj">');
-			html.push('<p class="pop_cj_int"><input id="pincode" type="text" maxlength=13 placeholder="请在此输入可乐瓶盖内的13位瓶盖码" class="c_tx3"></p>');
-			html.push('<p class="pop_cj_tip" style="display:none"><span class="c_tx1"></span></p>');
-			html.push('</div>');
-			var options={
-				'title':'存储瓶盖码',
-				'contents':html.join(''),
-				'okText':'确定',
-				'closeText':'取消'
-			};
-			cola.msgbox.show(function(){
-				var pincode=$.trim($('#pincode').val());
-				var tip=$('span.c_tx1');
-				if(cola.checkPincode(pincode)){
-					cola.storePincode(pincode,function(rp){
-						if(rp.errno==110){
-							tip.text('该瓶盖码已被使用').parent('p').show();
-						}
-						else{
-							self.getPincodeCount();
-							cola.msgbox.close();
-						}
-					})
-				}
-				else{
-					tip.text('瓶盖码格式有误！').parent('p').show();
-				}
-				return false;
-			},null,options,4);
 		});
 	};
 
@@ -293,7 +253,6 @@ var colaGlobal=function(){
 	this.run=function(){
 		$('#pg_footer').html(this.showFooter());
 		this.getPincodeCount();
-		this.storePincode();
 		this.showWeibo();
 		this.showRules();
 	};
