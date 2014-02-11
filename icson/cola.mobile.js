@@ -9,7 +9,7 @@ var timeFlag=1;
 var COOKIE_N_PRDID='cola_prdid';
 var COOKIE_N_ADRID='cola_addrid';
 var lotteryId=1224;
-var actId=17091;
+var actId=19038;
 var codeMapping={
 		'101':'请求失败',
 		'102':'OAuth错误',
@@ -280,15 +280,15 @@ cola.initSuperBuy=function(callback){
         scriptCharset:'gbk',
         success:function(){
 			if(typeof callback == 'function'){
-				callback(GoodsInfo_51buy.pblock[0].list);
+				callback(GoodsInfo_51buy);
 			}
 			else{
-				console.log(GoodsInfo_51buy.pblock[0].list);
+				//console.log(GoodsInfo_51buy);
 			}
 		}
 
     };
-    $.ajax('http://event.yixun.com/event/17091_info.js',settings);
+    $.ajax('http://event.yixun.com/event/' + actId + '_info.js',settings);
 };
 
 /**
@@ -483,68 +483,13 @@ cola.getColaCoinsHistory=function(offset,pageSize,callback){
  * 秒杀资格预约
  * @return {[type]} [description]
  */
-cola.skSubscribe=function(){
-	if(cola.isLogin()){
-		var url=domain+'/SeckillSubscribe?callback=?';
-		$.getJSON(url,function(rp){
-		        if(rp.errno==0){
-				$('#tips').show();
-				$('#sk_no').hide();
-				$('#sk_join').show();
-			}
-			else if(rp.errno==10002){
-				var options = {"okText" : "确定", "contents" : '无用户信息，请登陆', 'title' : '错误'};
-				cola.msgbox.show(null, null, options, 3); 
-			}
-			else if(rp.errno==20001){
-				var options = {"okText" : "确定", "contents" : '你已经拥有本期秒杀资格', 'title' : '提示'};
-				cola.msgbox.show(null, null, options, 3); 
-				$('#sk_no').hide();
-				$('#sk_join').show();
-			}
-			else if(rp.errno==20002){
-				var options={
-					'okText':'确定使用',
-					'closeText':'暂不使用',
-					'contents':' <div class="tip_sec tip_tit">预约秒杀资格</div><div class="cjj_iptwrap"><input id="pincode" class="cjj_ipt" type="text" maxlength="13" placeholder="请输入13位瓶盖码"/></div><div id="error_text"></div>'
-				};
-				cola.msgbox.show(function(){
-					var pincode=$.trim($('#pincode').val());
-					if(pincode == "") return true;
-					if(cola.checkPincode(pincode)){
-						cola.storePincode(pincode,function(rp){
-							if(rp.errno == 0){
-								cola.msgbox.close();
-								cola.skSubscribe();
-							}else{
-								var errmsg = '连续输入无效瓶盖码次数已达上限（5次），30分钟后才可继续输入。';
-								switch(rp.errno){
-									case 101:
-									case 102:
-									case 108://pincode无效
-										errmsg = '该瓶盖码无效，若连续输入无效瓶盖码超过5次，您将被屏蔽30分钟。';
-										break;
-									case 110://pincode已使用
-										errmsg = '该瓶盖码已被使用过';
-										break;
-								}
-								$('#error_text').html('<span style="color:red">' + errmsg + '</span>');
-								$('#pincode').focus();
-							}	
-						});
-					}
-					else{
-						$('#error_text').html('<span style="color:red">瓶盖码输入错误</span>');
-						$('#pincode').focus();
-					}
-				},null,options);
-			}
-			else{
-				var options = {"okText" : "确定", "contents" : '服务器繁忙，请稍后再试', 'title' : '秒杀失败'};
-				cola.msgbox.show(null, null, options, 3); 
-			}
-		});
-	}
+cola.skSubscribe=function(callback){
+	var url=domain+'/SeckillSubscribe?callback=?';
+	$.getJSON(url,function(rp){
+		if(typeof callback == 'function'){
+			callback(rp);
+		}		
+	});
 };
 
 /**
@@ -567,11 +512,13 @@ cola.checkSubscribe=function(callback){
  * @param  {[type]} qq [description]
  * @return {[type]}    [description]
  */
-cola.bindQQ=function(qq){
+cola.bindQQ=function(qq, callback){
 	var url=domain+'/bind/bind?callback=?';
 	var params={'qq':qq};
 	$.getJSON(url,params,function(rp){
-
+		if(typeof callback == 'function'){
+			callback(rp);
+		}		
 	});
 };
 
@@ -876,6 +823,22 @@ cola.checkLoginAndBind = function(){
 	}
 	return true;
 };
+
+cola.getGroup = function(){
+	var mappings = {
+		'1' : [0, 6],
+		'1001' : [1, 7],
+		'2001' : [2, 8],
+		'3001' : [3, 9],
+		'4001' : [4, 10],
+		'5001' : [5, 11]
+	};
+	var wsid = cola.getCookie('wsid');
+	if($.trim(wsid) == '' || typeof mappings[wsid] == 'undefined'){
+		wsid = '1';
+	}
+	return mappings[wsid];
+}
 
 cola.serviceAreas={
 	areaList: {
