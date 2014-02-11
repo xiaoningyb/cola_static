@@ -531,7 +531,7 @@ cola.isLogin=function(isJump){
 	var uid=$.trim(cola.getCookie('uid'));
 	var islogin=uid===''?false:true;
 	if(isJump&&!islogin){
-		cola.msgbox.show(function(){cola.goLogin();},null,{'okText':'去登录','closeText':'取消','contents':'您还没有登录，请登录后进行下一步操作！'}, 1);
+		cola.msgbox.show(function(){cola.goLogin();},null,{'okText':'去登录','closeText':'取消','contents':'您还没有登录，本活动需要使用QQ账号才能参与活动哦！'}, 1);
 	}
 	return islogin;
 };
@@ -547,14 +547,14 @@ cola.goLogin=function(){
  */
 cola.initSuperBuy=function(spCallback,skCallback){
 	var self=this;
-	this.getPrdIdx=function(wsid){
+	this.getGroupIdx=function(wsid){
 		var mappings={
-			'1':0,
-			'1001':1,
-			'2001':2,
-			'3001':3,
-			'4001':4,
-			'5001':5
+			'1':[0,6],
+			'1001':[1,7],
+			'2001':[2,8],
+			'3001':[3,9],
+			'4001':[4,10],
+			'5001':[5,11]
 		};
 		return typeof mappings[wsid]=='undefined'?mappings[1]:mappings[wsid];
 	};
@@ -568,16 +568,15 @@ cola.initSuperBuy=function(spCallback,skCallback){
         crossDomain:true,
         scriptCharset:'gbk',
         success:function(){
+        	var arrIdx=self.getGroupIdx(wsid);
 			//初始化0元秒杀商品
-			cola.initSk(GoodsInfo_51buy.pblock[6].list,skCallback);
+			if(typeof skCallback == 'function'){
+				cola.initSk(GoodsInfo_51buy.pblock[arrIdx[1]].list,skCallback);
+			}
+			//超级抢购
 			if(typeof spCallback == 'function'){
-				var idx=self.getPrdIdx(wsid);
-				spCallback(GoodsInfo_51buy.pblock[idx].list);
+				spCallback(GoodsInfo_51buy.pblock[arrIdx[0]].list);
 			}
-			else{
-				console.log(GoodsInfo_51buy.pblock);
-			}
-
 		}
 
     };
@@ -594,22 +593,24 @@ cola.initSk=function(initData,callback){
 		// console.log(initData);
 		for(var i in initData){
 			if(i>3) break;
-			self._getPrdInfo(i,initData[i].product_id,callback);
+			self._getPrdInfo(i,initData[i],callback);
 		}
 	};
 	
-	this._getPrdInfo=function(idx,prdId,callback){
+	this._getPrdInfo=function(idx,bPrdInfo,callback){
 		var self=this;
+		var prdId=bPrdInfo.product_id;
 		var url='http://d.qiang.yixun.com/qiangitem/GetDetail?&activeid=0&itemId='+prdId+'&_time='+Math.random();
 		$.getScript(url,function(){
 			if(pageInfo.errCode===0){
 				var prdInfo={};
 				var itemInfo=pageInfo.itemInfo;
+				console.log(itemInfo);
 				prdInfo.prdId=prdId;
 				prdInfo.title=itemInfo.title;
 				prdInfo.subTitle=itemInfo.subTitle;
-				var m=itemInfo.p_char_id.match(/^(\d+)\-(\d+)\-(\d+)$/);
-				prdInfo.pic='http://img1.icson.com/product/mm/'+m[1]+'/'+m[2]+'/'+itemInfo.p_char_id+'.jpg';
+				prdInfo.desc=bPrdInfo.desc;
+				prdInfo.pic=bPrdInfo.pic300;
 				prdInfo.url=itemInfo.originItemUrl;
 				prdInfo.stock=itemInfo.stock;
 				prdInfo.stockAll=itemInfo.stockAll;
@@ -627,5 +628,16 @@ cola.initSk=function(initData,callback){
 	};
 
 	this.getSkList(callback);
+};
+
+/**
+ * 获取url参数
+ * @param  {[type]} name [description]
+ * @return {[type]}      [description]
+ */
+cola.getParam=function(name){
+	var reg=new RegExp(name+'=([^&]*)');
+	var m=location.href.match(reg);
+	return !m?'':m[1];
 };
 
