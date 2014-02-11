@@ -6,7 +6,7 @@ var timeFlag=1;
 var cola={
 	'domain':'http://weixin.yixun.com/coladev',
 	'lotteryId':1224,
-	'eventId':17091
+	'eventId':19038
 };
 cola.codeMapping={
 		'101':'«Î«Û ß∞‹',
@@ -549,12 +549,12 @@ cola.initSuperBuy=function(spCallback,skCallback){
 	var self=this;
 	this.getGroupIdx=function(wsid){
 		var mappings={
-			'1':[0,6],
-			'1001':[1,7],
-			'2001':[2,8],
-			'3001':[3,9],
-			'4001':[4,10],
-			'5001':[5,11]
+			'1':[1,0],
+			'1001':[3,2],
+			'2001':[5,4],
+			'3001':[7,6],
+			'4001':[9,8],
+			'5001':[11,10]
 		};
 		return typeof mappings[wsid]=='undefined'?mappings[1]:mappings[wsid];
 	};

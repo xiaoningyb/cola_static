@@ -826,12 +826,12 @@ cola.checkLoginAndBind = function(){
 
 cola.getGroup = function(){
 	var mappings = {
-		'1' : [0, 6],
-		'1001' : [1, 7],
-		'2001' : [2, 8],
-		'3001' : [3, 9],
-		'4001' : [4, 10],
-		'5001' : [5, 11]
+		'1' : [1, 0],
+		'1001' : [3, 2],
+		'2001' : [5, 4],
+		'3001' : [7, 6],
+		'4001' : [9, 8],
+		'5001' : [11, 10]
 	};
 	var wsid = cola.getCookie('wsid');
 	if($.trim(wsid) == '' || typeof mappings[wsid] == 'undefined'){
