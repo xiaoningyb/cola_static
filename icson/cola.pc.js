@@ -562,16 +562,37 @@ cola.initSuperBuy=function(spCallback,skCallback){
 	if($.trim(wsid)==''){
 		wsid='1';
 	}
+	var arrIdx=self.getGroupIdx(wsid);
+	cola.getEventData(function(data){
+		if(typeof skCallback == 'function'){
+			cola.initSk(data.pblock[arrIdx[1]].list,skCallback);
+		}
+		if(typeof spCallback == 'function'){
+			spCallback(data.pblock[arrIdx[0]].list);
+		}
+	});
+
+	/*if(typeof window.event_data != 'undefined'){
+		if(typeof skCallback == 'function'){
+			cola.initSk(window.event_data.pblock[arrIdx[1]].list,skCallback);
+		}
+		if(typeof spCallback == 'function'){
+			spCallback(window.event_data.pblock[arrIdx[0]].list);
+		}
+		return;
+	}
+
 	var settings={
 		url:'http://event.yixun.com/event/'+cola.eventId+'_info.js',
         dataType:'script',
         crossDomain:true,
         scriptCharset:'gbk',
         success:function(){
-        	var arrIdx=self.getGroupIdx(wsid);
+        	window.event_data=GoodsInfo_51buy;
 			//初始化0元秒杀商品
 			if(typeof skCallback == 'function'){
-				cola.initSk(GoodsInfo_51buy.pblock[arrIdx[1]].list,skCallback);
+				var dataList=GoodsInfo_51buy.pblock[arrIdx[1]].list;
+				cola.initSk(dataList,skCallback);
 			}
 			//超级抢购
 			if(typeof spCallback == 'function'){
@@ -579,6 +600,31 @@ cola.initSuperBuy=function(spCallback,skCallback){
 			}
 		}
 
+    };
+    $.ajax(settings);*/
+};
+
+/**
+ * get event source data
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+cola.getEventData=function(callback){
+	if(typeof window.event_data != 'undefined' && typeof callback =='function'){
+		callback(window.event_data);
+		return;
+	}
+	var settings={
+		url:'http://event.yixun.com/event/'+cola.eventId+'_info.js',
+        dataType:'script',
+        crossDomain:true,
+        scriptCharset:'gbk',
+        success:function(){
+        	window.event_data=GoodsInfo_51buy;
+			if(typeof callback == 'function'){
+				callback(GoodsInfo_51buy);
+			}
+		}
     };
     $.ajax(settings);
 };
@@ -605,7 +651,6 @@ cola.initSk=function(initData,callback){
 			if(pageInfo.errCode===0){
 				var prdInfo={};
 				var itemInfo=pageInfo.itemInfo;
-				console.log(itemInfo);
 				prdInfo.prdId=prdId;
 				prdInfo.title=itemInfo.title;
 				prdInfo.subTitle=itemInfo.subTitle;

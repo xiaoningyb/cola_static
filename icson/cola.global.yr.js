@@ -97,7 +97,7 @@ var colaGlobal=function(){
 		html.push('<!-- 活动规则 结束 -->');
 		html.push('<!-- 二维码 -->');
 		html.push('<div class="act_ma">');
-		html.push('<a href="#">关闭</a>');
+		html.push('<a href="javascript:;" title="关闭">关闭</a>');
 		html.push('</div>');
 		return html.join('');
 	};
@@ -176,16 +176,39 @@ var colaGlobal=function(){
 		setInterval(self.intervalFunction,60000);
 		
 	};
+	
+	this.controlQrCode=function(){
+		$('div.act_ma >a').click(function(){
+			$(this).parent().remove();
+		});
+	};
 
 	this.intervalFunction=function(){
 		cola.getPincodeCount(function(rp){
 			if(rp.errno==0){
-				$('span.ycm_num').text(rp.data.colacoin);
+				if(typeof window.first == 'undefined'){
+					self.incrNumber(rp.data.colacoin,'span.ycm_num');
+				}
+				else{
+					$('span.ycm_num').text(rp.data.colacoin);
+				}
 			}
 			else{
 				console.log('get pincode errno:'+rp.errno);
 			}
 		});
+	};
+
+	this.incrNumber=function(max,cnt){
+		var t=0;
+		var itvId=setInterval(function(){
+			t++;
+			if(t==max){
+				clearInterval(itvId);
+				window.first=true;
+			}
+			$(cnt).text(t);
+		},10);
 	};
 
 	this.showRules=function(){
@@ -250,11 +273,39 @@ var colaGlobal=function(){
 		});
 	};
 
+	this.getLogoList=function(){
+		cola.getEventData(function(data){
+			if(data.adblock.length>0){
+				var result={'tp':['<ul class="clear">'],'bt':['<ul class="clear">']};
+				var row=null;
+				for(var i in data.adblock){
+					row=data.adblock[i];
+					if(/\-1$/.test(row.desc)){
+						result.tp.push('<li><a href="'+row.url+'"><img src="'+row.picUrl+'" alt="'+row.desc+'"/></a></li>');
+					}
+					else{
+						result.bt.push('<li><a href="'+row.url+'"><img src="'+row.picUrl+'" alt="'+row.desc+'"/></a></li>');
+					}
+				}
+				result.tp.push('</ul>');
+				result.bt.push('</ul>');
+				$('div.act_hot_bd').html(result.tp.join(''));
+				$('div.act_hzf_bd').html(result.bt.join(''));
+			}
+		});
+	};
+
 	this.run=function(){
+		var self=this;
 		$('#pg_footer').html(this.showFooter());
+		this.controlQrCode();
 		this.getPincodeCount();
 		this.showWeibo();
 		this.showRules();
+		setTimeout(function(){
+			self.getLogoList();
+		},1000);
+		
 	};
 
 	this.run();
