@@ -202,11 +202,11 @@ var colaGlobal=function(){
 	this.incrNumber=function(max,cnt){
 		var t=0;
 		var itvId=setInterval(function(){
-			t++;
 			if(t==max){
 				clearInterval(itvId);
 				window.first=true;
 			}
+			t++;
 			$(cnt).text(t);
 		},10);
 	};
