@@ -28,7 +28,7 @@ cola.codeMapping={
 		'30001':'参与秒杀日期错误',
 		'30002':'秒杀商品索引有误',
 		'30003':'没有参与该次秒杀',
-		'30004':'json数据解析错误',
+		'30004':'json数据解析错误'
 };
 cola.code2error=function(errorCode){
 	return typeof cola.codeMapping[errorCode]=='undefined'?'未知错误:'+errorCode:cola.codeMapping[errorCode];
