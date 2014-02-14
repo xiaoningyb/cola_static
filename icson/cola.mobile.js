@@ -270,10 +270,10 @@ cola.initSk=function(){
 
 
 /**
- * 超级抢购初始化
+ * 秒杀初始化
  * @return {[type]} [description]
  */
-cola.initSuperBuy=function(callback){
+cola.initSeckill=function(callback){
 	var self=this;
 	var url='';
 	var settings={
