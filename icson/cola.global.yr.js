@@ -205,6 +205,7 @@ var colaGlobal=function(){
 			if(t==max){
 				clearInterval(itvId);
 				window.first=true;
+				return;
 			}
 			t++;
 			$(cnt).text(t);
