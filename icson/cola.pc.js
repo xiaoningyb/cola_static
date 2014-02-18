@@ -16,6 +16,7 @@ cola.codeMapping={
 		'105':'OAuth登录认证失败',
 		'110':'该瓶盖码已被使用过',
 		'201':'未知错误',
+		'202':'请使用QQ号登录',
 		'301':'未登录，请登录',
 		'10001':'CMEM调用错误',
 		'10002':'该用户不存在',
@@ -49,7 +50,7 @@ cola.getPincodeCount=function(callback){
 
 cola.storePincode=function(pincode,callback){
 	var url=cola.domain+'/colacoinadd?callback=?';
-	var params={'pincode':pincode};
+	var params={'pincode':pincode.toUpperCase()};
 	$.getJSON(url,params,function(rp){
 		if(typeof callback == 'function'){
 			callback(rp);
@@ -539,6 +540,18 @@ cola.isLogin=function(isJump){
 cola.goLogin=function(){
 	var url='https://base.yixun.com/login.html?url='+encodeURIComponent(window.location);
 	window.location=url;
+};
+
+cola.checkIsLogin=function(loginCallback){
+	var url=cola.domain+'/checkqq?callback=?&t='+Math.random();
+	$.getJSON(url,function(rp){
+		if(rp.errno==0 && typeof loginCallback == 'function'){
+			loginCallback();
+		}
+		else if(rp.errno!=0){
+			cola.msgbox.show(function(){cola.goLogin();},null,{'okText':'去登录','closeText':'取消','contents':'您还没有使用QQ号登录，本活动需要使用QQ账号登录才能参与活动哦！'}, 1);
+		}
+	});
 };
 
 /**
