@@ -14,8 +14,10 @@ cola.codeMapping={
 		'103':'您的QQ号还未绑定',
 		'104':'易迅登录认证失败',
 		'105':'OAuth登录认证失败',
+		'106':'服务器繁忙，请稍候再试',
 		'110':'该瓶盖码已被使用过',
-		'201':'未知错误',
+		'201':'参数错误',
+		'202':'未登录，请登录',
 		'202':'请使用QQ号登录',
 		'301':'未登录，请登录',
 		'10001':'CMEM调用错误',
@@ -549,7 +551,7 @@ cola.checkIsLogin=function(loginCallback){
 			loginCallback();
 		}
 		else if(rp.errno!=0){
-			cola.msgbox.show(function(){cola.goLogin();},null,{'okText':'去登录','closeText':'取消','contents':'您还没有使用QQ号登录，本活动需要使用QQ账号登录才能参与活动哦！'}, 1);
+			cola.msgbox.show(function(){cola.goLogin();},null,{'okText':'去登录','closeText':'取消','contents':'本活动需要使用QQ账号登录才能参与哦！'}, 1);
 		}
 	});
 };
