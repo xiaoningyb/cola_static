@@ -68,6 +68,7 @@ var colaGlobal=function(){
 	this.showWeibo=function(){
 		var self=this;
 		this.maxlen=140;
+		$('div.weibo_form').prepend('<textarea class="input_text weibo_tat"></textarea>');
 		var options={
 			showFrame : "#zhuanfa_frame",
 			submitBtn : ".tencent_weibo_bt" ,
